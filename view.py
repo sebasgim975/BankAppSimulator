@@ -11,28 +11,39 @@ class View:
         self.frame.pack(fill=tk.BOTH, expand=True)
         self.users = ClientLinkedList()
 
-
-        self.user_label = tk.Label(self.frame, text=("Nome de Utilizador"), bg=("gray"), foreground=("black"), font=("Arial", 15), pady=5)
-        self.user_label.pack()
-        self.user_entry = tk.Entry(self.frame, width=25)
-        self.user_entry.pack()
-
-        self.password_label = tk.Label(self.frame, text=("Password"), bg=("gray"), foreground=("black"), font=("Arial", 15), pady=5)
-        self.password_label.pack()
-        self.password_entry = tk.Entry(self.frame, width=25, show=("*"))
-        self.password_entry.pack()
-
-        self.registo_button = tk.Button(self.frame,text="Registo",bg="black",foreground="white",font=("Arial",12),width=10)
+        self.registo_button = tk.Button(self.frame,text="Registo",bg="black",foreground="white",font=("Arial",12),width=10,command=self.registar)
         self.registo_button.pack(pady=5)
 
         self.login_button = tk.Button(self.frame,text="Login",bg="black",foreground="white",font=("Arial",12),width=10)
         self.login_button.pack(pady=5)
 
     def registar(self):
-        nome = self.user_entry.get()
-        if self.users.find_username(nome) != -1:
-            messagebox.showerror("Erro", "Username existe")
-        elif self.user_entry.size==0:
-            posicao = self.users.size
+            self.nova_janela = tk.Toplevel()
+            self.nova_janela.title("Registo")
+            self.nova_janela.configure(bg="gray")
+
+            tk.Label(self.nova_janela,text="Nome de utilizador",bg= "gray",font=("Arial",15)).grid(row=0,column=0,sticky="w")
+            self.nome_entry = tk.Entry(self.nova_janela)
+            self.nome_entry.grid(row=0,column=1,sticky="w")
+
+            tk.Label(self.nova_janela,text="Password",bg= "gray",font=("Arial",15)).grid(row=1,column=0,sticky="w")
+            self.password_entry = tk.Entry(self.nova_janela,show="*")
+            self.password_entry.grid(row=1,column=1,sticky="w")
+
+            tk.Label(self.nova_janela,text="NIF",bg= "gray",font=("Arial",15)).grid(row=2,column=0,sticky="w")
+            self.nif_entry= tk.Entry(self.nova_janela)
+            self.nif_entry.grid(row=2,column=1,sticky="w")
             
+            self.registo_f_button = tk.Button(self.nova_janela,text="Registar",bg="gray",font=("Arial",12),command=self.registar)
+            self.registo_f_button.grid(row=4,column=4,sticky="w")
+            self.registo_f_button.pack()
+
+            username = self.nome_entry.get()
+            password = self.password_entry.get()
+            nif = self.nif_entry.get()
+            if self.users.find_username(username) != -1:
+                messagebox.showinfo("Erro","Este nome já está registado")
+            else:
+                 self.users.insert_last(username,password,nif)
+                 messagebox.showinfo("","Registo sucedido.")
 
