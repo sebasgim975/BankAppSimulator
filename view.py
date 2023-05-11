@@ -16,12 +16,7 @@ class View:
         self.user_entry = tk.Entry(self.frame, width=25)
         self.user_entry.pack()
 
-        self.password_label = tk.Label(self.frame, text=("Password"), bg=("black"), foreground=("white"), font=("Arial", 15), pady=5)
-        self.password_label.pack()
-        self.password_entry = tk.Entry(self.frame, width=25, show=("*"))
-        self.password_entry.pack()
-
-        self.password_label = tk.Label(self.frame, text=("NIF"), bg=("black"), foreground=("white"), font=("Arial", 15), pady=5)
+        self.password_label = tk.Label(self.frame, text=("Password"), bg=("gray"), foreground=("black"), font=("Arial", 15), pady=5)
         self.password_label.pack()
         self.password_entry = tk.Entry(self.frame, width=25, show=("*"))
         self.password_entry.pack()
