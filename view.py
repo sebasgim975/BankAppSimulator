@@ -1,5 +1,8 @@
 import tkinter as tk
 from controller import *
+from tkinter import messagebox
+from model.Cliente import *
+from model.ClientLinkedList import *
 
 class View:
     def __init__(self, master):
