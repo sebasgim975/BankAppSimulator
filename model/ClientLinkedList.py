@@ -50,6 +50,16 @@ class ClientLinkedList(List):
             posicao += 1
         return -1
     
+    def find_NIF(self, NIF):
+        node = self.head
+        posicao = 0
+        while node is not None:
+            if node.get_element()[2] == NIF:
+                return posicao
+            node = node.get_next_node()
+            posicao += 1
+        return -1
+    
     def insert(self, elemento, posicao):
         if posicao < 0 or posicao > self.size:
             raise Exception("Posição inválida")
