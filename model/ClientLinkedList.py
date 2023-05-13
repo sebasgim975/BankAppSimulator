@@ -44,7 +44,7 @@ class ClientLinkedList(List):
         node = self.head
         posicao = 0
         while node is not None:
-            if node.get_element().get_nome() == username:
+            if node.get_element()[0] == username:
                 return posicao
             node = node.get_next_node()
             posicao += 1
