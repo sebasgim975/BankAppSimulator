@@ -17,7 +17,7 @@ class View:
     def login_registro(self):
 
         
-        self.login_button = tk.Button(self.frame,text="Login",bg="black",foreground="white",font=("Arial",12),width=10)
+        self.login_button = tk.Button(self.frame,text="Login",bg="black",foreground="white",font=("Arial",12),width=10, command=self.login)
         self.login_button.pack(pady=5)
          
         self.registo_button = tk.Button(self.frame,text="Registo",bg="black",foreground="white",font=("Arial",12),width=10,command=self.registar)
@@ -71,5 +71,34 @@ class View:
                     self.users.insert(user_info, posicao)
                     messagebox.showinfo("Succeso", "Username registado")
                     self.nova_janela.destroy()
+
+    
+    def login(self):
+            self.nova_janela = tk.Toplevel()
+            self.nova_janela.title("Login")
+            self.nova_janela.configure(bg="gray")
+
+            tk.Label(self.nova_janela,text="Nome de utilizador",bg= "gray",font=("Arial",15)).grid(row=0,column=0,sticky="w")
+            self.nome_entry = tk.Entry(self.nova_janela)
+            self.nome_entry.grid(row=0,column=1,sticky="w")
+
+            tk.Label(self.nova_janela,text="Password",bg= "gray",font=("Arial",15)).grid(row=1,column=0,sticky="w")
+            self.password_entry = tk.Entry(self.nova_janela,show="*")
+            self.password_entry.grid(row=1,column=1,sticky="w")
+            
+            self.registo_f_button = tk.Button(self.nova_janela,text="Login",bg="gray",font=("Arial",12), width=10,command=self.confirmar_login)
+            self.registo_f_button.grid(row=4,column=4,sticky="w")
+
+    
+    def confirmar_login(self):
+              nome =  self.nome_entry.get()
+              password=self.password_entry.get()
+              user_info=[nome, password]
+              if self.users.find_login_info(user_info)==-1:
+                    messagebox.showerror("Erro", "Login incorreto")
+                    self.nova_janela.destroy()
+              else:
+                     messagebox.showinfo("next", "to be continued...")
+                     self.nova_janela.destroy()
 
 

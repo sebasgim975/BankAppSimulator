@@ -60,6 +60,16 @@ class ClientLinkedList(List):
             posicao += 1
         return -1
     
+    def find_login_info(self, login_info):
+        node = self.head
+        posicao = 0
+        while node is not None:
+            if node.get_element()[0:2] == login_info:
+                return posicao
+            node = node.get_next_node()
+            posicao += 1
+        return -1
+    
     def insert(self, elemento, posicao):
         if posicao < 0 or posicao > self.size:
             raise Exception("Posição inválida")
