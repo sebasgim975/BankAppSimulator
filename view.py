@@ -1,8 +1,11 @@
 import tkinter as tk
 from controller import *
-from tkinter import messagebox
+from tkinter import END, messagebox
 from model.Cliente import *
 from model.ClientLinkedList import *
+import sqlite3
+
+
 
 class View:
     def __init__(self, master):
@@ -98,7 +101,60 @@ class View:
                     messagebox.showerror("Erro", "Login incorreto")
                     self.nova_janela.destroy()
               else:
-                     messagebox.showinfo("next", "to be continued...")
                      self.nova_janela.destroy()
+                     self.despesas()
+
+
+    def despesas(self):
+        self.nova_janela = tk.Toplevel()
+        self.nova_janela.title("Despesas")
+        self.nova_janela.configure(bg="gray")
+        
+        self.adicionar_despesas_button = tk.Button(self.nova_janela,text="Adicionar despesas",bg="gray",font=("Arial",12), width=10,command=self.adicionar_despesas)
+        self.adicionar_despesas_button.grid(row=4,column=4,sticky="w")
+
+    def adicionar_despesas(self):
+          self.nova_janela = tk.Toplevel()
+          self.nova_janela.title("Adicionar despesas")
+          self.nova_janela.configure(bg="gray")
+
+          tk.Label(self.nova_janela,text="Categoria de despesa",bg= "gray",font=("Arial",15)).grid(row=0,column=0,sticky="w")
+          self.Categoria_de_despesa_entry = tk.Entry(self.nova_janela)
+          self.Categoria_de_despesa_entry.grid(row=0,column=1,sticky="w")
+
+          tk.Label(self.nova_janela,text="Descrição de despesa",bg= "gray",font=("Arial",15)).grid(row=1,column=0,sticky="w")
+          self.Descricao_de_despesa_entry = tk.Entry(self.nova_janela,show="*")
+          self.Descricao_de_despesa_entry.grid(row=1,column=1,sticky="w")
+
+          tk.Label(self.nova_janela,text="Valor da despesa",bg= "gray",font=("Arial",15)).grid(row=2,column=0,sticky="w")
+          self.Valor_da_despesa_entry= tk.Entry(self.nova_janela)
+          self.Valor_da_despesa_entry.grid(row=2,column=1,sticky="w")
+
+          tk.Label(self.nova_janela,text="Data da despesa",bg= "gray",font=("Arial",15)).grid(row=3,column=0,sticky="w")
+          self.Data_da_despesa_entry= tk.Entry(self.nova_janela)
+          self.Data_da_despesa_entry.grid(row=3,column=1,sticky="w")
+            
+          self.adicionar_button = tk.Button(self.nova_janela,text="Adicionar",bg="gray",font=("Arial",12), width=10,command=self.confirmar_adicao)
+          self.adicionar_button.grid(row=4,column=1,sticky="w")
+
+    def confirmar_adicao(self):
+          conn=sqlite3.connect('Despesas.db')
+          c=conn.cursor()
+
+          self.Categoria_de_despesa_entry.delete(0, END)
+          self.Descricao_de_despesa_entry.delete(0, END)
+          self.Valor_da_despesa_entry.delete(0, END)
+          self.Data_da_despesa_entry.delete(0, END)
+          
+
+          
+
+
+
+
+          conn.commit()
+          conn.close()
+          self.nova_janela.destroy
+        
 
 
