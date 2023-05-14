@@ -138,20 +138,27 @@ class View:
           self.adicionar_button.grid(row=4,column=1,sticky="w")
 
     def confirmar_adicao(self):
-          conn=sqlite3.connect('Despesas.db')
+          
+          
+          
+          conn=sqlite3.connect('despesas.db')
           c=conn.cursor()
 
           self.Categoria_de_despesa_entry.delete(0, END)
           self.Descricao_de_despesa_entry.delete(0, END)
           self.Valor_da_despesa_entry.delete(0, END)
           self.Data_da_despesa_entry.delete(0, END)
+
+
+          c.execute("INSERT INTO addresses VALUES (:Categoria_de_despesa, :Descricao_de_despesa, :Valor_da_despesa, :Data_da_despesa)",
+                    {
+                          'Categoria_de_despesa': self.Categoria_de_despesa_entry.get(),
+                          'Descricao_de_despesa': self.Descricao_de_despesa_entry.get(),
+                          'Valor_da_despesa': self.Valor_da_despesa_entry.get(),
+                          'Data_da_despesa': self.Data_da_despesa_entry.get()
+                    }
+                    )
           
-
-          
-
-
-
-
           conn.commit()
           conn.close()
           self.nova_janela.destroy
