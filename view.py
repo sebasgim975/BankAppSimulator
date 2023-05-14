@@ -111,7 +111,10 @@ class View:
         self.nova_janela.configure(bg="gray")
         
         self.adicionar_despesas_button = tk.Button(self.nova_janela,text="Adicionar despesas",bg="gray",font=("Arial",12), width=10,command=self.adicionar_despesas)
-        self.adicionar_despesas_button.grid(row=4,column=4,sticky="w")
+        self.adicionar_despesas_button.grid(row=0,column=1,sticky="w")
+
+        self.consultar_despesas_button = tk.Button(self.nova_janela,text="Consultar despesas",bg="gray",font=("Arial",12), width=10,command=self.consultar_despesas)
+        self.consultar_despesas_button.grid(row=1,column=1,sticky="w")
 
     def adicionar_despesas(self):
           self.nova_janela = tk.Toplevel()
@@ -137,10 +140,8 @@ class View:
           self.adicionar_button = tk.Button(self.nova_janela,text="Adicionar",bg="gray",font=("Arial",12), width=10,command=self.confirmar_adicao)
           self.adicionar_button.grid(row=4,column=1,sticky="w")
 
-    def confirmar_adicao(self):
-          
-          
-          
+
+    def confirmar_adicao(self): 
           conn=sqlite3.connect('despesas.db')
           c=conn.cursor()
 
@@ -148,7 +149,6 @@ class View:
           self.Descricao_de_despesa_entry.delete(0, END)
           self.Valor_da_despesa_entry.delete(0, END)
           self.Data_da_despesa_entry.delete(0, END)
-
 
           c.execute("INSERT INTO addresses VALUES (:Categoria_de_despesa, :Descricao_de_despesa, :Valor_da_despesa, :Data_da_despesa)",
                     {
@@ -161,7 +161,24 @@ class View:
           
           conn.commit()
           conn.close()
-          self.nova_janela.destroy
+
+    def consultar_despesas(self):
+          a=0
+
+      
+
+
+
+      
+          
+          
+          
+
+
+
+
+
+
         
 
 
