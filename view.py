@@ -9,21 +9,27 @@ import sqlite3
 
 class View:
     def __init__(self, master):
-        self.master = master
-        self.frame = tk.Frame(self.master, bg="gray", padx=75, pady=75)
-        self.frame.pack(fill=tk.BOTH, expand=True)
-        self.users = ClientLinkedList()
-        self.login_registro()
+      self.master = master
+      self.frame = tk.Frame(self.master, bg="#50D837", padx=400, pady=300)
+      self.frame.pack(fill=tk.BOTH, expand=True)
+      self.users = ClientLinkedList()
+
+      self.logo = tk.PhotoImage(file="inico.png")
+      self.logo = self.logo.subsample(2)
+      self.logo_label = tk.Label(self.frame, image=self.logo, bg="#50D837")
+      self.logo_label.pack()
+
+      self.login_registro()
 
 
 
     def login_registro(self):
 
         
-        self.login_button = tk.Button(self.frame,text="Login",bg="black",foreground="white",font=("Arial",12),width=10, command=self.login)
+        self.login_button = tk.Button(self.frame,text="Login",bg="white",foreground="black",font=("Arial",12),width=10, command=self.login)
         self.login_button.pack(pady=5)
          
-        self.registo_button = tk.Button(self.frame,text="Registo",bg="black",foreground="white",font=("Arial",12),width=10,command=self.registar)
+        self.registo_button = tk.Button(self.frame,text="Registo",bg="white",foreground="black",font=("Arial",12),width=10,command=self.registar)
         self.registo_button.pack(pady=5)
 
 
