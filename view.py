@@ -6,32 +6,22 @@ from model.ClientLinkedList import *
 import sqlite3
 
 
-
 class View:
     def __init__(self, master):
       self.master = master
       self.frame = tk.Frame(self.master, bg="#92e3a9", padx=350, pady=300)
       self.frame.pack(fill=tk.BOTH, expand=True)
       self.users = ClientLinkedList()
-
-      self.logo = tk.PhotoImage(file="inico.png")
-      self.logo = self.logo.subsample(2)
-      self.logo_label = tk.Label(self.frame, image=self.logo, bg="#92e3a9")
-      self.logo_label.pack()
-
       self.login_registro()
 
 
 
-    def login_registro(self):
-
-        
+    def login_registro(self):  
         self.login_button = tk.Button(self.frame,text="Login",bg="white",foreground="black",font=("Arial",12),width=20, height=2,command=self.login)
         self.login_button.pack(pady=5)
          
         self.registo_button = tk.Button(self.frame,text="Registo",bg="white",foreground="black",font=("Arial",12),width=20, height=2,command=self.registar)
         self.registo_button.pack(pady=5)
-
 
 
     def registar(self):
@@ -54,10 +44,6 @@ class View:
             self.registo_f_button.grid(row=4,column=4,sticky="w")
 
             
-            
-
-
-
     def confirmar_registar(self):
               nome =  self.nome_entry.get()
               password=self.password_entry.get()
@@ -154,28 +140,30 @@ class View:
 
 
     def confirmar_adicao(self): 
+          
           conn=sqlite3.connect('despesas.db')
           c=conn.cursor()
 
-          self.Categoria_de_despesa_entry.delete(0, END)
-          self.Descricao_de_despesa_entry.delete(0, END)
-          self.Valor_da_despesa_entry.delete(0, END)
-          self.Data_da_despesa_entry.delete(0, END)
-
-          c.execute("INSERT INTO addresses VALUES (:Categoria_de_despesa, :Descricao_de_despesa, :Valor_da_despesa, :Data_da_despesa)",
+          c.execute("INSERT INTO addresses VALUES (:Categoria_de_despesa, :Descricao_de_despesa, :Valor_da_despesa, :Data_da_despesa, :Orcamento)",
                     {
-                          'Categoria_de_despesa': self.Categoria_de_despesa_entry.get(),
-                          'Descricao_de_despesa': self.Descricao_de_despesa_entry.get(),
-                          'Valor_da_despesa': self.Valor_da_despesa_entry.get(),
-                          'Data_da_despesa': self.Data_da_despesa_entry.get()
-                    }
-                    )
+                          'Categoria_de_despesa' : self.categoria_de_despesa_entry.get(),
+                          'Descricao_de_despesa' : self.descricao_de_despesa_entry.get(),
+                          'Valor_da_despesa' : self.valor_da_despesa_entry.get(),
+                          'Data_da_despesa' : self.data_da_despesa_entry.get(),
+                          'Orcamento' : self.salario_entry.get()
+                    })
           
           conn.commit()
           conn.close()
 
     def consultar_despesas(self):
-          a=0
+          conn=sqlite3.connect('despesas.db')
+          c=conn.cursor()
+          c.execute("SELECT *, oid FROM addresses")
+          records=c.fetchall()
+          print(records)
+          conn.commit()
+          conn.close()
 
     def orcamento_mensal(self):
       self.nova_janela = tk.Toplevel()
@@ -199,19 +187,12 @@ class View:
       #      messagebox.showinfo("Aviso","Valor máximo atingido.")
       #  else:
       #      messagebox.showinfo("","Concluido.")
-              
-                            
-
-      
-          
-          
-          
 
 
-
-
-
-
-        
-
-
+      #conn=sqlite3.connect('despesas.db')
+      #c=conn.cursor()
+      #c.execute("SELECT *, oid FROM addresses")  
+      #records=c.fetchall()   <---------- Adições das despesas guardadas no records
+      #print(records)
+      #conn.commit()
+      #conn.close()
