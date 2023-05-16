@@ -116,10 +116,10 @@ class View:
         self.nova_janela.title("Despesas")
         self.nova_janela.configure(bg="gray")
         
-        self.adicionar_despesas_button = tk.Button(self.nova_janela,text="Adicionar despesas",bg="gray",font=("Arial",12), width=10,command=self.adicionar_despesas)
+        self.adicionar_despesas_button = tk.Button(self.nova_janela,text="Adicionar despesas",bg="gray",font=("Arial",12), width=30,command=self.adicionar_despesas)
         self.adicionar_despesas_button.grid(row=0,column=1,sticky="w")
 
-        self.consultar_despesas_button = tk.Button(self.nova_janela,text="Consultar despesas",bg="gray",font=("Arial",12), width=10,command=self.consultar_despesas)
+        self.consultar_despesas_button = tk.Button(self.nova_janela,text="Consultar despesas",bg="gray",font=("Arial",12), width=30,command=self.consultar_despesas)
         self.consultar_despesas_button.grid(row=1,column=1,sticky="w")
 
     def adicionar_despesas(self):
