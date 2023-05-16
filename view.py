@@ -111,10 +111,13 @@ class View:
         self.nova_janela.configure(bg="gray")
         
         self.adicionar_despesas_button = tk.Button(self.nova_janela,text="Adicionar despesas",bg="gray",font=("Arial",12), width=30,command=self.adicionar_despesas)
-        self.adicionar_despesas_button.grid(row=0,column=1,sticky="w")
+        self.adicionar_despesas_button.grid(row=0,column=0,sticky="w")
 
         self.consultar_despesas_button = tk.Button(self.nova_janela,text="Consultar despesas",bg="gray",font=("Arial",12), width=30,command=self.consultar_despesas)
-        self.consultar_despesas_button.grid(row=1,column=1,sticky="w")
+        self.consultar_despesas_button.grid(row=1,column=0,sticky="w")
+
+        self.orcamento_mensal_button = tk.Button(self.nova_janela,text="Orçamento mensal",bg="gray",font=("Arial",12),width=30,command= self.orcamento_mensal)
+        self.orcamento_mensal_button.grid(row=2,column=0,sticky="w")
 
     def adicionar_despesas(self):
           self.nova_janela = tk.Toplevel()
@@ -122,23 +125,27 @@ class View:
           self.nova_janela.configure(bg="gray")
 
           tk.Label(self.nova_janela,text="Categoria de despesa",bg= "gray",font=("Arial",15)).grid(row=0,column=0,sticky="w")
-          self.Categoria_de_despesa_entry = tk.Entry(self.nova_janela)
-          self.Categoria_de_despesa_entry.grid(row=0,column=1,sticky="w")
+          self.categoria_de_despesa_entry = tk.Entry(self.nova_janela)
+          self.categoria_de_despesa_entry.grid(row=0,column=1,sticky="w")
 
           tk.Label(self.nova_janela,text="Descrição de despesa",bg= "gray",font=("Arial",15)).grid(row=1,column=0,sticky="w")
-          self.Descricao_de_despesa_entry = tk.Entry(self.nova_janela,show="*")
-          self.Descricao_de_despesa_entry.grid(row=1,column=1,sticky="w")
+          self.descricao_de_despesa_entry = tk.Entry(self.nova_janela,show="*")
+          self.descricao_de_despesa_entry.grid(row=1,column=1,sticky="w")
 
           tk.Label(self.nova_janela,text="Valor da despesa",bg= "gray",font=("Arial",15)).grid(row=2,column=0,sticky="w")
-          self.Valor_da_despesa_entry= tk.Entry(self.nova_janela)
-          self.Valor_da_despesa_entry.grid(row=2,column=1,sticky="w")
+          self.valor_da_despesa_entry= tk.Entry(self.nova_janela)
+          self.valor_da_despesa_entry.grid(row=2,column=1,sticky="w")
 
           tk.Label(self.nova_janela,text="Data da despesa",bg= "gray",font=("Arial",15)).grid(row=3,column=0,sticky="w")
-          self.Data_da_despesa_entry= tk.Entry(self.nova_janela)
-          self.Data_da_despesa_entry.grid(row=3,column=1,sticky="w")
+          self.data_da_despesa_entry= tk.Entry(self.nova_janela)
+          self.data_da_despesa_entry.grid(row=3,column=1,sticky="w")
+
+          tk.Label(self.nova_janela,text="Orçamento",bg="gray",font=("Arial",15)).grid(row=4,column=0,sticky="w")
+          self.salario_entry= tk.Entry(self.nova_janela)
+          self.salario_entry.grid(row=4,column=1,sticky="w")
             
           self.adicionar_button = tk.Button(self.nova_janela,text="Adicionar",bg="gray",font=("Arial",12), width=10,command=self.confirmar_adicao)
-          self.adicionar_button.grid(row=4,column=1,sticky="w")
+          self.adicionar_button.grid(row=5,column=1,sticky="w")
 
 
     def confirmar_adicao(self): 
@@ -165,9 +172,30 @@ class View:
     def consultar_despesas(self):
           a=0
 
-      
+    def orcamento_mensal(self):
+      self.nova_janela = tk.Toplevel()
+      self.nova_janela.title("Orçamento mensal")
+      self.nova_janela.configure(bg="gray")
+
+      tk.Label(self.nova_janela,text="Defina um gasto máximo",bg="gray",font=("Arial",15)).grid(row=0,column=0,sticky="w")
+      self.gasto_mensal_entry = tk.Entry(self.nova_janela)
+      self.gasto_mensal_entry.grid(row=0,column=1,sticky="w")
+
+      self.gastos_mensais_button = tk.Button(self.nova_janela,text="Confirmar",bg="gray",font=("Arial",12),width=10)
+      self.gastos_mensais_button.grid(row=1,column=1,sticky="w")
 
 
+      #def gastar(self):
+      #  salario = self.salario_entry
+
+      #  if gastos > salario:
+      #      messagebox.showinfo("Erro","Salário insuficiente.")
+      #  elif gastos == salario:
+      #      messagebox.showinfo("Aviso","Valor máximo atingido.")
+      #  else:
+      #      messagebox.showinfo("","Concluido.")
+              
+                            
 
       
           
