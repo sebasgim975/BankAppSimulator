@@ -10,13 +10,13 @@ import sqlite3
 class View:
     def __init__(self, master):
       self.master = master
-      self.frame = tk.Frame(self.master, bg="#50D837", padx=400, pady=300)
+      self.frame = tk.Frame(self.master, bg="#92e3a9", padx=350, pady=300)
       self.frame.pack(fill=tk.BOTH, expand=True)
       self.users = ClientLinkedList()
 
       self.logo = tk.PhotoImage(file="inico.png")
       self.logo = self.logo.subsample(2)
-      self.logo_label = tk.Label(self.frame, image=self.logo, bg="#50D837")
+      self.logo_label = tk.Label(self.frame, image=self.logo, bg="#92e3a9")
       self.logo_label.pack()
 
       self.login_registro()
@@ -26,28 +26,27 @@ class View:
     def login_registro(self):
 
         
-        self.login_button = tk.Button(self.frame,text="Login",bg="white",foreground="black",font=("Arial",12),width=10, command=self.login)
+        self.login_button = tk.Button(self.frame,text="Login",bg="white",foreground="black",font=("Arial",12),width=20, height=2,command=self.login)
         self.login_button.pack(pady=5)
          
-        self.registo_button = tk.Button(self.frame,text="Registo",bg="white",foreground="black",font=("Arial",12),width=10,command=self.registar)
+        self.registo_button = tk.Button(self.frame,text="Registo",bg="white",foreground="black",font=("Arial",12),width=20, height=2,command=self.registar)
         self.registo_button.pack(pady=5)
 
 
 
     def registar(self):
-            self.nova_janela = tk.Toplevel()
+            self.nova_janela = tk.Toplevel(self.master, bg="#92e3a9", padx=200, pady=150)
             self.nova_janela.title("Registo")
-            self.nova_janela.configure(bg="gray")
 
-            tk.Label(self.nova_janela,text="Nome de utilizador",bg= "gray",font=("Arial",15)).grid(row=0,column=0,sticky="w")
+            tk.Label(self.nova_janela,text="Nome de utilizador",bg= "#92e3a9",font=("Arial",15)).grid(row=0,column=0,sticky="w")
             self.nome_entry = tk.Entry(self.nova_janela)
             self.nome_entry.grid(row=0,column=1,sticky="w")
 
-            tk.Label(self.nova_janela,text="Password",bg= "gray",font=("Arial",15)).grid(row=1,column=0,sticky="w")
+            tk.Label(self.nova_janela,text="Password",bg= "#92e3a9",font=("Arial",15)).grid(row=1,column=0,sticky="w")
             self.password_entry = tk.Entry(self.nova_janela,show="*")
             self.password_entry.grid(row=1,column=1,sticky="w")
 
-            tk.Label(self.nova_janela,text="NIF",bg= "gray",font=("Arial",15)).grid(row=2,column=0,sticky="w")
+            tk.Label(self.nova_janela,text="NIF",bg= "#92e3a9",font=("Arial",15)).grid(row=2,column=0,sticky="w")
             self.nif_entry= tk.Entry(self.nova_janela)
             self.nif_entry.grid(row=2,column=1,sticky="w")
             
