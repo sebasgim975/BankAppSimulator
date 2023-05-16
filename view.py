@@ -15,7 +15,6 @@ class View:
       self.login_registro()
 
 
-<<<<<<< Updated upstream
 
     def login_registro(self):  
         self.login_button = tk.Button(self.frame,text="Login",bg="white",foreground="black",font=("Arial",12),width=20, height=2,command=self.login)
@@ -28,48 +27,6 @@ class View:
     def registar(self):
             self.nova_janela = tk.Toplevel(self.master, bg="#92e3a9", padx=200, pady=150)
             self.nova_janela.title("Registo")
-=======
-        
-
-        
-
-        self.registo_button = tk.Button(self.frame,text="Registo",bg="black",foreground="white",font=("Arial",12),width=10, command=self.registar)
-        self.registo_button.pack(pady=5)
-
-        self.login_button = tk.Button(self.frame,text="Login",bg="black",foreground="white",font=("Arial",12),width=10)
-        self.login_button.pack(pady=5)
-
-    
-
-        
-
-    def registar(self):
-        self.user_label = tk.Label(self.frame, text=("Nome de Utilizador"), bg=("gray"), foreground=("black"), font=("Arial", 15), pady=5)
-        self.user_label.pack()
-        self.user_entry = tk.Entry(self.frame, width=25)
-        self.user_entry.pack()
-
-        self.nif_label = tk.Label(self.frame, text=("NIF"), bg=("gray"), foreground=("black"), font=("Arial", 15), pady=5)
-        self.nif_label.pack()
-        self.nif_entry = tk.Entry(self.frame, width=25)
-        self.nif_entry.pack()
-
-        self.password_label = tk.Label(self.frame, text=("Password"), bg=("gray"), foreground=("black"), font=("Arial", 15), pady=5)
-        self.password_label.pack()
-        self.password_entry = tk.Entry(self.frame, width=25, show=("*"))
-        self.password_entry.pack()
-
-
-        self.login_button.deletecommand
-
-
-        nome = self.user_entry.get()
-        if self.users.find_username(nome) != -1:
-            messagebox.showerror("Erro", "Username existe")
-        elif self.user_entry.size==0:
-            posicao = self.users.size
-
->>>>>>> Stashed changes
 
             tk.Label(self.nova_janela,text="Nome de utilizador",bg= "#92e3a9",font=("Arial",15)).grid(row=0,column=0,sticky="w")
             self.nome_entry = tk.Entry(self.nova_janela)

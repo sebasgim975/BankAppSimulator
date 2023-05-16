@@ -7,13 +7,7 @@ import sqlite3
 conn=sqlite3.connect('despesas.db')
 c=conn.cursor()
 c.execute("DROP TABLE addresses")
-
 c.execute("""CREATE TABLE if not exists addresses (Categoria_de_despesa text ,Descricao_de_despesa text,Valor_da_despesa text,Data_da_despesa text, Orcamento text)""")
-
-
-c.execute("SELECT *, oid FROM addresses")
-records=c.fetchall()
-print(records)
 conn.commit()
 conn.close()
 
