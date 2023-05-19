@@ -104,8 +104,8 @@ class View:
         self.adicionar_despesas_button = tk.Button(self.nova_janela,text="Adicionar despesas",bg="gray",font=("Arial",12), width=30,command=self.adicionar_despesas)
         self.adicionar_despesas_button.grid(row=0,column=0,sticky="w")
 
-        self.consultar_despesas_button = tk.Button(self.nova_janela,text="Consultar despesas",bg="gray",font=("Arial",12), width=30,command=self.consultar_despesas)
-        self.consultar_despesas_button.grid(row=1,column=0,sticky="w")
+        #self.consultar_despesas_button = tk.Button(self.nova_janela,text="Consultar despesas",bg="gray",font=("Arial",12), width=30,command=self.consultar_despesas)
+        #self.consultar_despesas_button.grid(row=1,column=0,sticky="w")
 
         self.orcamento_mensal_button = tk.Button(self.nova_janela,text="Orçamento mensal",bg="gray",font=("Arial",12),width=30,command= self.orcamento_mensal)
         self.orcamento_mensal_button.grid(row=2,column=0,sticky="w")
@@ -152,18 +152,89 @@ class View:
                           'Data_da_despesa' : self.data_da_despesa_entry.get(),
                           'Orcamento' : self.salario_entry.get()
                     })
+          self.categoria_de_despesa_entry.delete(0, END)
+          self.descricao_de_despesa_entry.delete(0, END)
+          self.valor_da_despesa_entry.delete(0, END)
+          self.data_da_despesa_entry.delete(0, END)
+          self.salario_entry.delete(0, END)
           
           conn.commit()
           conn.close()
 
     def consultar_despesas(self):
+          self.nova_janela = tk.Toplevel()
+          self.nova_janela.title("Consultar despesas")
+          self.nova_janela.configure(bg="gray")
+
+          tk.Label(self.nova_janela,text="Categoria de despesa",bg= "gray",font=("Arial",15)).grid(row=2,column=0,sticky="w")
+          tk.Label(self.nova_janela,text="Descrição de despesa",bg= "gray",font=("Arial",15)).grid(row=2,column=1,sticky="w")
+          tk.Label(self.nova_janela,text="Valor da despesa",bg= "gray",font=("Arial",15)).grid(row=2,column=2,sticky="w")
+          tk.Label(self.nova_janela,text="Data da despesa",bg= "gray",font=("Arial",15)).grid(row=2,column=3,sticky="w")
+
           conn=sqlite3.connect('despesas.db')
           c=conn.cursor()
-          c.execute("SELECT *, oid FROM addresses")
+          c.execute("SELECT * FROM addresses")
           records=c.fetchall()
-          print(records)
+
+          categoria_de_despesa=[None]*len(records)
+          descrição_de_despesa=[None]*len(records)
+          valor_da_despesa=[None]*len(records)
+          data_da_despesa=[None]*len(records)
+
+          for i in range(len(records)):
+                j=0
+                for k in records[i]:
+                      if k == records[i][4]:
+                            break
+                      consultar_label=tk.Label(self.nova_janela, text=k)
+                      consultar_label.grid(row=i+3, column=j)
+                      j+=1
+
+          for i in range(len(records)):
+                categoria_de_despesa[i]=records[i][0]
+
+          for i in range(len(records)):
+                descrição_de_despesa[i]=records[i][1]
+
+          for i in range(len(records)):
+                valor_da_despesa[i]=records[i][2]
+
+          for i in range(len(records)):
+                data_da_despesa[i]=records[i][3]
+
+
+          self.clicked=tk.StringVar()
+          self.clicked.set("----")
+
+          self.drop=tk.OptionMenu(self.nova_janela, self.clicked, *categoria_de_despesa)
+          self.drop.pack()
+
+          self.button_configure=tk.Button(self.nova_janela, text="Configurar",bg="gray",font=("Arial",12), width=10, command=self.confirmar_configuracao)
+          self.button_configure.grid(row=0, column=1)
+          self.button_configure.pack()
+
+
+          
+                      
           conn.commit()
           conn.close()
+
+
+    def confirmar_configuracao(self):
+          conn=sqlite3.connect('despesas.db')
+          c=conn.cursor()
+
+
+          self.label=tk.Label(self.nova_janela, text=self.clicked.get()).pack()
+
+
+          conn.commit()
+          conn.close()
+
+
+
+
+
 
     def orcamento_mensal(self):
       self.nova_janela = tk.Toplevel()
