@@ -51,7 +51,7 @@ class View:
     if self.users.find_username(user_info[0])!=-1:
       messagebox.showerror("Erro", "Username existe")
       self.nova_janela.destroy()
-    elif self.users.find_NIF(user_info[2])!=-1 or len(user_info[2])!=9 or user_info[2].isnumeric==False:
+    elif self.users.find_NIF(user_info[2])!=-1 or len(user_info[2])!=9 or user_info[2].isnumeric()==False:
       messagebox.showerror("Erro", "NIF invalido")
       self.nova_janela.destroy()
     elif self.users.size==0:
@@ -103,8 +103,8 @@ class View:
     self.adicionar_despesas_button = tk.Button(self.nova_janela,text="Adicionar despesas",bg="gray",font=("Arial",12), width=30,command=self.adicionar_despesas)
     self.adicionar_despesas_button.grid(row=0,column=0,sticky="w")
 
-    #self.consultar_despesas_button = tk.Button(self.nova_janela,text="Consultar despesas",bg="gray",font=("Arial",12), width=30,command=self.consultar_despesas)
-    #self.consultar_despesas_button.grid(row=1,column=0,sticky="w")
+    self.consultar_despesas_button = tk.Button(self.nova_janela,text="Consultar despesas",bg="gray",font=("Arial",12), width=30,command=self.consultar_despesas)
+    self.consultar_despesas_button.grid(row=1,column=0,sticky="w")
 
     self.orcamento_mensal_button = tk.Button(self.nova_janela,text="Orçamento mensal",bg="gray",font=("Arial",12),width=30,command= self.orcamento_mensal)
     self.orcamento_mensal_button.grid(row=2,column=0,sticky="w")
@@ -215,6 +215,7 @@ class View:
 
     self.button_configure=tk.Button(self.nova_janela, text="Configurar",bg="gray",font=("Arial",12), width=10, command=self.confirmar_configuracao)
     self.button_configure.grid(row=0, column=1)
+    self.button_configure.pack()
 
     conn.commit()
     conn.close()
