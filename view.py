@@ -187,13 +187,12 @@ class View:
 
     for i in range(len(records)):
       j=0
-  
-    for k in records[i]:
-      if k == records[i][4]:
-        break
-      consultar_label=tk.Label(self.nova_janela, text=k)
-      consultar_label.grid(row=i+3, column=j)
-      j+=1
+      for k in records[i]:
+        if k == records[i][4]:
+          break
+        consultar_label=tk.Label(self.nova_janela, text=k)
+        consultar_label.grid(row=i+3, column=j)
+        j+=1
 
     for i in range(len(records)):
       categoria_de_despesa[i]=records[i][0]
@@ -208,18 +207,17 @@ class View:
       data_da_despesa[i]=records[i][3]
 
 
-      self.clicked=tk.StringVar()
-      self.clicked.set("----")
+    self.clicked=tk.StringVar()
+    self.clicked.set("----")
 
-      self.drop=tk.OptionMenu(self.nova_janela, self.clicked, *categoria_de_despesa)
-      self.drop.pack()
+    self.drop=tk.OptionMenu(self.nova_janela, self.clicked, *categoria_de_despesa)
+    self.drop.pack()
 
-      self.button_configure=tk.Button(self.nova_janela, text="Configurar",bg="gray",font=("Arial",12), width=10, command=self.confirmar_configuracao)
-      self.button_configure.grid(row=0, column=1)
-      self.button_configure.pack()
+    self.button_configure=tk.Button(self.nova_janela, text="Configurar",bg="gray",font=("Arial",12), width=10, command=self.confirmar_configuracao)
+    self.button_configure.grid(row=0, column=1)
 
-      conn.commit()
-      conn.close()
+    conn.commit()
+    conn.close()
 
   def confirmar_configuracao(self):
     conn=sqlite3.connect('despesas.db')
