@@ -119,7 +119,7 @@ class View:
     self.categoria_de_despesa_entry.grid(row=0,column=1,sticky="w")
 
     tk.Label(self.nova_janela,text="Descrição de despesa",bg= "gray",font=("Arial",15)).grid(row=1,column=0,sticky="w")
-    self.descricao_de_despesa_entry = tk.Entry(self.nova_janela,show="*")
+    self.descricao_de_despesa_entry = tk.Entry(self.nova_janela)
     self.descricao_de_despesa_entry.grid(row=1,column=1,sticky="w")
 
     tk.Label(self.nova_janela,text="Valor da despesa",bg= "gray",font=("Arial",15)).grid(row=2,column=0,sticky="w")
