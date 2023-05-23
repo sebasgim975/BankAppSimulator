@@ -9,18 +9,23 @@ import sqlite3
 class View:
     def __init__(self, master):
       self.master = master
-      self.frame = tk.Frame(self.master, bg="#92e3a9", padx=350, pady=300)
-      self.frame.pack(fill=tk.BOTH, expand=True)
       self.users = ClientLinkedList()
-      self.login_registro()
-
-
-
-    def login_registro(self):  
-        self.login_button = tk.Button(self.frame,text="Login",bg="white",foreground="black",font=("Arial",12),width=20, height=2,command=self.login)
-        self.login_button.pack(pady=5)
-        self.registo_button = tk.Button(self.frame,text="Registo",bg="white",foreground="black",font=("Arial",12),width=20, height=2,command=self.registar)
-        self.registo_button.pack(pady=5)
+      self.master.resizable(False, False)
+      
+      self.frame = tk.Frame(self.master, bg="#92e3a9", padx=300, pady=250)
+      self.frame.pack(fill=tk.BOTH, expand=True)
+      self.frase = tk.Label(self.frame, text="Sistema de Controlo de Finanças", font=("arial", 20), foreground="black", bg="#92e3a9")
+      self.frase.pack()
+      
+      self.imagem_1 = tk.PhotoImage(file="inico.png")
+      self.imagem_1 = self.imagem_1.subsample(2)
+      self.imagem_1_label = tk.Label(self.frame, image=self.imagem_1, bg="#92e3a9")
+      self.imagem_1_label.pack()
+      
+      self.login_button = tk.Button(self.frame,text="Login",bg="white",foreground="black",font=("Arial",12),width=20, height=2,command=self.login)
+      self.login_button.pack(pady=5)
+      self.registo_button = tk.Button(self.frame,text="Registo",bg="white",foreground="black",font=("Arial",12),width=20, height=2,command=self.registar)
+      self.registo_button.pack(pady=5)
 
 
     def registar(self):
@@ -51,7 +56,7 @@ class View:
       if self.users.find_username(user_info[0])!=-1:
             messagebox.showerror("Erro", "Username existe")
             self.nova_janela.destroy()
-      elif self.users.find_NIF(user_info[2])!=-1 or len(user_info[2])!=9 or user_info[2].isnumeric==False:
+      elif self.users.find_NIF(user_info[2])!=-1 or len(user_info[2])!=9 or user_info[2].isnumeric()==False:
             messagebox.showerror("Erro", "NIF invalido")
             self.nova_janela.destroy()
       elif self.users.size==0:
