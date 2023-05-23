@@ -44,24 +44,21 @@ class View:
 
             
   def confirmar_registar(self):
-    nome =  self.nome_entry.get()
-    password=self.password_entry.get()
-    nif=self.nif_entry.get()
-    user_info=[nome, password, nif]
-    if self.users.find_username(user_info[0])!=-1:
+    self.user_info = Cliente(self.nome_entry.get(), self.password_entry.get(), self.nif_entry.get())
+    if self.users.find_username(self.user_info.get_nome())!=-1:
       messagebox.showerror("Erro", "Username existe")
       self.nova_janela.destroy()
-    elif self.users.find_NIF(user_info[2])!=-1 or len(user_info[2])!=9 or user_info[2].isnumeric()==False:
+    elif self.users.find_NIF(self.user_info.get_nif())!=-1 or len(self.user_info.get_nif())!=9 or self.user_info.get_nif().isnumeric()==False:
       messagebox.showerror("Erro", "NIF invalido")
       self.nova_janela.destroy()
     elif self.users.size==0:
       posicao=self.users.size
-      self.users.insert_first(user_info)
+      self.users.insert_first(self.user_info)
       messagebox.showinfo("Succeso", "Username registado")
       self.nova_janela.destroy()
     else:
       posicao=self.users.size
-      self.users.insert(user_info, posicao)
+      self.users.insert(self.user_info, posicao)
       messagebox.showinfo("Succeso", "Username registado")
       self.nova_janela.destroy()
 
@@ -84,10 +81,7 @@ class View:
 
     
   def confirmar_login(self):
-    nome =  self.nome_entry.get()
-    password=self.password_entry.get()
-    user_info=[nome, password]
-    if self.users.find_login_info(user_info)==-1:
+    if self.users.find_login_info(self.nome_entry.get(), self.password_entry.get())==-1:
       messagebox.showerror("Erro", "Login incorreto")
       self.nova_janela.destroy()
     else:
@@ -115,7 +109,7 @@ class View:
     self.nova_janela.configure(bg="gray")
 
     tk.Label(self.nova_janela,text="Categoria de despesa",bg= "gray",font=("Arial",15)).grid(row=0,column=0,sticky="w")
-    self.categoria_de_despesa_entry = tk.Entry(self.nova_janela)
+    self.categoria_de_despesa_entry = tk.Entry(self.nova_janela, text="test")
     self.categoria_de_despesa_entry.grid(row=0,column=1,sticky="w")
 
     tk.Label(self.nova_janela,text="Descrição de despesa",bg= "gray",font=("Arial",15)).grid(row=1,column=0,sticky="w")
@@ -139,31 +133,33 @@ class View:
 
 
   def confirmar_adicao(self): 
-    conn=sqlite3.connect('despesas.db')
-    c=conn.cursor()
+    if self.categoria_de_despesa_entry.get() == '' or self.descricao_de_despesa_entry.get() == '' or self.valor_da_despesa_entry.get() == '' or self.data_da_despesa_entry.get() == '':
+        messagebox.showerror("Erro", "Falta prencher adições")
+    else:
+        conn=sqlite3.connect('despesas.db')
+        c=conn.cursor()
 
-    c.execute("INSERT INTO addresses VALUES (:Categoria_de_despesa, :Descricao_de_despesa, :Valor_da_despesa, :Data_da_despesa, :Orçamento)",
-      {
-        'Categoria_de_despesa': self.categoria_de_despesa_entry.get(),
-        'Descricao_de_despesa': self.descricao_de_despesa_entry.get(),
-        'Valor_da_despesa': self.valor_da_despesa_entry.get(),
-        'Data_da_despesa': self.data_da_despesa_entry.get(),
-        'Orçamento': self.salario_entry.get()
-      }
-      )
-    self.categoria_de_despesa_entry.delete(0, END)
-    self.descricao_de_despesa_entry.delete(0, END)
-    self.valor_da_despesa_entry.delete(0, END)
-    self.data_da_despesa_entry.delete(0, END)
-    self.salario_entry.delete(0, END)
+        c.execute("INSERT INTO addresses VALUES (:Categoria_de_despesa, :Descricao_de_despesa, :Valor_da_despesa, :Data_da_despesa, :Orçamento)",
+          {
+            'Categoria_de_despesa': self.categoria_de_despesa_entry.get(),
+            'Descricao_de_despesa': self.descricao_de_despesa_entry.get(),
+            'Valor_da_despesa': self.valor_da_despesa_entry.get(),
+            'Data_da_despesa': self.data_da_despesa_entry.get(),
+            'Orçamento': self.salario_entry.get()
+          }
+          )
+        self.categoria_de_despesa_entry.delete(0, END)
+        self.descricao_de_despesa_entry.delete(0, END)
+        self.valor_da_despesa_entry.delete(0, END)
+        self.data_da_despesa_entry.delete(0, END)
+        self.salario_entry.delete(0, END)
 
-    c.execute("SELECT * FROM addresses")
-    records=c.fetchall()
-    print(records)
-      
+        c.execute("SELECT * FROM addresses")
+        records=c.fetchall()
+        print(records)
           
-    conn.commit()
-    conn.close()
+        conn.commit()
+        conn.close()
 
   def consultar_despesas(self):
         self.nova_janela = tk.Toplevel()
@@ -235,6 +231,7 @@ class View:
         a=self.clicked_categoria_de_despesa.get()
         b=self.clicked_data_da_despesa.get()
         updated_table=[['' for i in range(4)] for t in range(len(self.records))]
+        tabela_adicoes=AdicoesLinkedList()
 
         f=0
         for i in range(len(self.records)):         # Limpa a tabela
