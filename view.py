@@ -7,6 +7,7 @@ import sqlite3
 
 
 class View:
+      
     def __init__(self, master):
       self.master = master
       self.users = ClientLinkedList()
@@ -17,7 +18,7 @@ class View:
       self.frase = tk.Label(self.frame, text="Sistema de Controlo de Finanças", font=("arial", 20), foreground="black", bg="#92e3a9")
       self.frase.pack()
       
-      self.imagem_1 = tk.PhotoImage(file="inico.png")
+      self.imagem_1 = tk.PhotoImage(file="inicio.png")
       self.imagem_1 = self.imagem_1.subsample(2)
       self.imagem_1_label = tk.Label(self.frame, image=self.imagem_1, bg="#92e3a9")
       self.imagem_1_label.pack()
@@ -56,7 +57,7 @@ class View:
       if self.users.find_username(user_info[0])!=-1:
             messagebox.showerror("Erro", "Username existe")
             self.nova_janela.destroy()
-      elif self.users.find_NIF(user_info[2])!=-1 or len(user_info[2])!=9 or user_info[2].isnumeric==False:
+      elif self.users.find_NIF(user_info[2])!=-1 or len(user_info[2])!=9 or user_info[2].isnumeric()==False:
             messagebox.showerror("Erro", "NIF invalido")
             self.nova_janela.destroy()
       elif self.users.size==0:
@@ -171,74 +172,74 @@ class View:
       conn.close()
 
     def consultar_despesas(self):
-          self.nova_janela = tk.Toplevel()
-          self.nova_janela.title("Consultar despesas")
-          self.nova_janela.configure(bg="gray")
+      self.nova_janela = tk.Toplevel()
+      self.nova_janela.title("Consultar despesas")
+      self.nova_janela.configure(bg="gray")
 
-          tk.Label(self.nova_janela,text="Categoria de despesa",bg= "gray",font=("Arial",15)).grid(row=2,column=0,sticky="w")
-          tk.Label(self.nova_janela,text="Descrição de despesa",bg= "gray",font=("Arial",15)).grid(row=2,column=1,sticky="w")
-          tk.Label(self.nova_janela,text="Valor da despesa",bg= "gray",font=("Arial",15)).grid(row=2,column=2,sticky="w")
-          tk.Label(self.nova_janela,text="Data da despesa",bg= "gray",font=("Arial",15)).grid(row=2,column=3,sticky="w")
+      tk.Label(self.nova_janela,text="Categoria de despesa",bg= "gray",font=("Arial",15)).grid(row=2,column=0,sticky="w")
+      tk.Label(self.nova_janela,text="Descrição de despesa",bg= "gray",font=("Arial",15)).grid(row=2,column=1,sticky="w")
+      tk.Label(self.nova_janela,text="Valor da despesa",bg= "gray",font=("Arial",15)).grid(row=2,column=2,sticky="w")
+      tk.Label(self.nova_janela,text="Data da despesa",bg= "gray",font=("Arial",15)).grid(row=2,column=3,sticky="w")
 
-          conn=sqlite3.connect('despesas.db')
-          c=conn.cursor()
-          c.execute("SELECT * FROM addresses")
-          records=c.fetchall()
+      conn=sqlite3.connect('despesas.db')
+      c=conn.cursor()
+      c.execute("SELECT * FROM addresses")
+      records=c.fetchall()
 
-          categoria_de_despesa=[None]*len(records)
-          descrição_de_despesa=[None]*len(records)
-          valor_da_despesa=[None]*len(records)
-          data_da_despesa=[None]*len(records)
+      categoria_de_despesa=[None]*len(records)
+      descrição_de_despesa=[None]*len(records)
+      valor_da_despesa=[None]*len(records)
+      data_da_despesa=[None]*len(records)
 
-          for i in range(len(records)):
-                j=0
-                for k in records[i]:
-                      if k == records[i][4]:
-                            break
-                      consultar_label=tk.Label(self.nova_janela, text=k)
-                      consultar_label.grid(row=i+3, column=j)
-                      j+=1
+      for i in range(len(records)):
+            j=0
+            for k in records[i]:
+                  if k == records[i][4]:
+                        break
+                  consultar_label=tk.Label(self.nova_janela, text=k)
+                  consultar_label.grid(row=i+3, column=j)
+                  j+=1
 
-          for i in range(len(records)):
-                categoria_de_despesa[i]=records[i][0]
+      for i in range(len(records)):
+            categoria_de_despesa[i]=records[i][0]
 
-          for i in range(len(records)):
-                descrição_de_despesa[i]=records[i][1]
+      for i in range(len(records)):
+            descrição_de_despesa[i]=records[i][1]
 
-          for i in range(len(records)):
-                valor_da_despesa[i]=records[i][2]
+      for i in range(len(records)):
+            valor_da_despesa[i]=records[i][2]
 
-          for i in range(len(records)):
-                data_da_despesa[i]=records[i][3]
+      for i in range(len(records)):
+            data_da_despesa[i]=records[i][3]
 
 
-          self.clicked=tk.StringVar()
-          self.clicked.set("----")
+      self.clicked=tk.StringVar()
+      self.clicked.set("----")
 
-          self.drop=tk.OptionMenu(self.nova_janela, self.clicked, *categoria_de_despesa)
-          self.drop.pack()
+      self.drop=tk.OptionMenu(self.nova_janela, self.clicked, *categoria_de_despesa)
+      self.drop.pack()
 
-          self.button_configure=tk.Button(self.nova_janela, text="Configurar",bg="gray",font=("Arial",12), width=10, command=self.confirmar_configuracao)
-          self.button_configure.grid(row=0, column=1)
-          self.button_configure.pack()
+      self.button_configure=tk.Button(self.nova_janela, text="Configurar",bg="gray",font=("Arial",12), width=10, command=self.confirmar_configuracao)
+      self.button_configure.grid(row=0, column=1)
+      self.button_configure.pack()
 
 
           
                       
-          conn.commit()
-          conn.close()
+      conn.commit()
+      conn.close()
 
 
     def confirmar_configuracao(self):
-          conn=sqlite3.connect('despesas.db')
-          c=conn.cursor()
+      conn=sqlite3.connect('despesas.db')
+      c=conn.cursor()
 
 
-          self.label=tk.Label(self.nova_janela, text=self.clicked.get()).pack()
+      self.label=tk.Label(self.nova_janela, text=self.clicked.get()).pack()
 
 
-          conn.commit()
-          conn.close()
+      conn.commit()
+      conn.close()
 
 
 
