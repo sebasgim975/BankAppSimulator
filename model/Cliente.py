@@ -1,7 +1,8 @@
 class Cliente:
-    def __init__(self, nome, password):
+    def __init__(self, nome, password, NIF):
         self.__nome = nome
         self.__password = password
+        self.__NIF = NIF
 
     def get_nome(self):
         return self.__nome
@@ -14,6 +15,12 @@ class Cliente:
         
     def set_password(self, nova_password):
         self.__password = nova_password
+
+    def get_nif(self):
+        return self.__NIF
+        
+    def set_nif(self, novo_nif):
+        self.__NIF = novo_nif
 
 
 

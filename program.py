@@ -11,6 +11,7 @@ conn.commit()
 conn.close()
 
 
+
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("Sistema de Controlo de Finanças")
