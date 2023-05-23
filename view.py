@@ -56,7 +56,7 @@ class View:
       if self.users.find_username(user_info[0])!=-1:
             messagebox.showerror("Erro", "Username existe")
             self.nova_janela.destroy()
-      elif self.users.find_NIF(user_info[2])!=-1 or len(user_info[2])!=9 or user_info[2].isnumeric()==False:
+      elif self.users.find_NIF(user_info[2])!=-1 or len(user_info[2])!=9 or user_info[2].isnumeric==False:
             messagebox.showerror("Erro", "NIF invalido")
             self.nova_janela.destroy()
       elif self.users.size==0:
