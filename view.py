@@ -120,7 +120,7 @@ class View:
     self.categoria_de_despesa_entry.grid(row=0,column=1,sticky="w")
 
     tk.Label(self.nova_janela,text="Descrição de despesa",bg= "gray",font=("Arial",15)).grid(row=1,column=0,sticky="w")
-    self.descricao_de_despesa_entry = tk.Entry(self.nova_janela,show="*")
+    self.descricao_de_despesa_entry = tk.Entry(self.nova_janela)
     self.descricao_de_despesa_entry.grid(row=1,column=1,sticky="w")
 
     tk.Label(self.nova_janela,text="Valor da despesa",bg= "gray",font=("Arial",15)).grid(row=2,column=0,sticky="w")
@@ -142,7 +142,20 @@ class View:
   def confirmar_adicao(self): 
     if self.categoria_de_despesa_entry.get() == '' or self.descricao_de_despesa_entry.get() == '' or self.valor_da_despesa_entry.get() == '' or self.data_da_despesa_entry.get() == '':
         messagebox.showerror("Erro", "Falta prencher adições")
+    elif self.categoria_de_despesa_entry.get().isnumeric() == True or self.descricao_de_despesa_entry.get().isnumeric() == True or self.data_da_despesa_entry.get().isnumeric() == True:
+        messagebox.showerror("Erro", "Input invalido")
+    elif self.categoria_de_despesa_entry.get() == self.descricao_de_despesa_entry.get() or self.categoria_de_despesa_entry.get() == self.data_da_despesa_entry.get() or self.descricao_de_despesa_entry.get() == self.data_da_despesa_entry.get():
+        messagebox.showerror("Erro", "Input invalido")
     else:
+        
+        try:
+           float(self.valor_da_despesa_entry.get())
+           True
+        except ValueError:
+           messagebox.showerror("Erro", "Valor de despesa invalido")
+        
+
+
         conn=sqlite3.connect('despesas.db')
         c=conn.cursor()
 
@@ -161,9 +174,6 @@ class View:
         self.data_da_despesa_entry.delete(0, END)
         self.salario_entry.delete(0, END)
 
-        c.execute("SELECT * FROM addresses")
-        records=c.fetchall()
-        print(records)
           
         conn.commit()
         conn.close()
@@ -182,6 +192,7 @@ class View:
     c=conn.cursor()
     c.execute("SELECT * FROM addresses")
     self.records=c.fetchall()
+    print(self.records)
 
     temp_categoria_de_despesa=[None]*len(self.records)+[None]
     temp_data_da_despesa=[None]*len(self.records)+[None]
@@ -234,127 +245,83 @@ class View:
 
 
   def confirmar_configuracao(self):
-    a=self.clicked_categoria_de_despesa.get()
-    b=self.clicked_data_da_despesa.get()
-    updated_table=[['' for i in range(4)] for t in range(len(self.records))]
-    tabela=Adicoes(self.clicked_categoria_de_despesa.get(), self.clicked_data_da_despesa.get())
+    tabela_adicoes=AdicoesLinkedList()
+    tabela=Adicoes(self.records)
 
-    f=0
-    for i in range(len(self.records)):         # Limpa a tabela
-          j=0
-          for k in self.records[i]:
+    for i in range(len(self.records)):
+           tabela_adicoes.insert(tabela.get_record(i), i)
+
+    if self.clicked_categoria_de_despesa.get() != "----" and self.clicked_data_da_despesa.get() == "----":
+        for i in range(len(self.records)):
+           tabela_adicoes.remove(tabela_adicoes.find(self.clicked_categoria_de_despesa.get(), None, 0, None))
+        
+      
+    if self.clicked_categoria_de_despesa.get() == "----" and self.clicked_data_da_despesa.get() != "----":
+        for i in range(len(self.records)):
+           tabela_adicoes.remove(tabela_adicoes.find(None, self.clicked_data_da_despesa.get(), None, 3))
+                
+  
+    if self.clicked_categoria_de_despesa.get() != "----" and self.clicked_data_da_despesa.get() != "----":
+      for i in range(len(self.records)):
+           tabela_adicoes.remove(tabela_adicoes.find(self.clicked_categoria_de_despesa.get(), self.clicked_data_da_despesa.get(), 0, 3))
+           
+    if self.clicked_valor_da_despesa.get() != "----":
+       tabela_adicoes.mergeSort(tabela_adicoes.head, self.clicked_valor_da_despesa.get())
+
+            
+    if self.clicked_categoria_de_despesa.get() != "----" or self.clicked_data_da_despesa.get() != "----" or self.clicked_valor_da_despesa.get() != "----":
+      
+          for i in range(len(self.records)):         # Limpa a tabela
+            j=0
+            for k in self.records[i]:
                 if k == self.records[i][4]:
-                      break
+                   break
                 consultar_label=tk.Label(self.nova_janela, text='' ,bg="white",foreground="black",font=("Arial",12),width=25, height=1)
                 consultar_label.grid(row=i+3, column=j, columnspan=1)
                 j+=1
 
-    if self.clicked_categoria_de_despesa.get() != "----" and self.clicked_data_da_despesa.get() == "----":
-        for i in range(len(self.records)):
+          for i in range(tabela_adicoes.size):
+                if i > 0 and tabela_adicoes.head.next_node != None:
+                   tabela_adicoes.head=tabela_adicoes.head.next_node
+                for j in range(len(tabela_adicoes.head.element) - 1):
+                  consultar_label=tk.Label(self.nova_janela, text=tabela_adicoes.head.element[j] ,bg="white",foreground="black",font=("Arial",12),width=25, height=1)
+                  consultar_label.grid(row=i+3, column=j, columnspan=1)
+
+
+    if self.clicked_categoria_de_despesa.get() == "----" and self.clicked_data_da_despesa.get() == "----" and self.clicked_valor_da_despesa.get() == "----":
+      
+          for i in range(len(self.records)):         # Limpa a tabela
             j=0
             for k in self.records[i]:
-                if k == self.records[i][4]:
-                    break
-                elif k == a:
-                    for s in self.records[i]:
-                        if s == self.records[i][4]:
-                            f+=1
-                            break
-                        else:
-                            updated_table[f][j]=s
-                            j+=1
-                
-    f=0
-    if self.clicked_categoria_de_despesa.get() == "----" and self.clicked_data_da_despesa.get() != "----":
-        for i in range(len(self.records)):
-            j=0
-            for k in self.records[i]:
-                if k == self.records[i][4]:
-                    break
-                elif k == b:
-                    for s in self.records[i]:
-                        if s == self.records[i][4]:
-                            f+=1
-                            break
-                        else:
-                            updated_table[f][j]=s
-                            j+=1
-                
-    f=0
-    if self.clicked_categoria_de_despesa.get() != "----" and self.clicked_data_da_despesa.get() != "----":
-      i=0
-      j=0
-      for k in self.records:
-        if k[0] == a and k[3] == b:
-          for s in range(len(k)):
-            if s == 4:
-                i+=1
-                f+=1
-                j=0
+              if k == self.records[i][4]:
                 break
-            else:
-              updated_table[f][j]=k[j]
+              consultar_label=tk.Label(self.nova_janela, text='' ,bg="white",foreground="black",font=("Arial",12),width=25, height=1)
+              consultar_label.grid(row=i+3, column=j, columnspan=1)
               j+=1
 
-    if self.clicked_categoria_de_despesa.get() != "----" or self.clicked_data_da_despesa.get() != "----":
-        for i in range(len(updated_table)):
-            for k in range(len(updated_table)-i-1):
-                if updated_table[k+1][0] == '':
-                    break
-                if self.clicked_valor_da_despesa.get() == "ascendente":
-                  if updated_table[k][2] > updated_table[k+1][2]:
-                      temp=updated_table[k+1]
-                      updated_table[k+1]=updated_table[k]
-                      updated_table[k]=temp
-                if self.clicked_valor_da_despesa.get() == "descendente":
-                  if updated_table[k][2] < updated_table[k+1][2]:
-                      temp=updated_table[k+1]
-                      updated_table[k+1]=updated_table[k]
-                      updated_table[k]=temp
-    elif self.clicked_categoria_de_despesa.get() == "----" and self.clicked_data_da_despesa.get() == "----":
-        updated_table=self.records
-        for i in range(len(updated_table)):
-            for k in range(len(updated_table)-i-1):
-                if updated_table[k+1][0] == '':
-                    break
-                if self.clicked_valor_da_despesa.get() == "ascendente":
-                  if updated_table[k][2] > updated_table[k+1][2]:
-                      temp=updated_table[k+1]
-                      updated_table[k+1]=updated_table[k]
-                      updated_table[k]=temp
-                if self.clicked_valor_da_despesa.get() == "descendente":
-                  if updated_table[k][2] < updated_table[k+1][2]:
-                      temp=updated_table[k+1]
-                      updated_table[k+1]=updated_table[k]
-                      updated_table[k]=temp
-
-    for i in range(len(updated_table)):
-          j=0
-          for k in updated_table[i]:
-                if k == '':
-                      break
+          for i in range(len(self.records)):
+             j=0
+             for k in self.records[i]:
+                if k == self.records[i][4]:
+                   break
                 consultar_label=tk.Label(self.nova_janela, text=k ,bg="white",foreground="black",font=("Arial",12),width=25, height=1)
                 consultar_label.grid(row=i+3, column=j, columnspan=1)
                 j+=1
 
+      
 
 
+  def orcamento_mensal(self):
+    self.nova_janela = tk.Toplevel()
+    self.nova_janela.title("Orçamento mensal")
+    self.nova_janela.configure(bg="gray")
 
+    tk.Label(self.nova_janela,text="Defina um gasto máximo",bg="gray",font=("Arial",15)).grid(row=0,column=0,sticky="w")
+    self.gasto_mensal_entry = tk.Entry(self.nova_janela)
+    self.gasto_mensal_entry.grid(row=0,column=1,sticky="w")
 
-
-
-
-    def orcamento_mensal(self):
-      self.nova_janela = tk.Toplevel()
-      self.nova_janela.title("Orçamento mensal")
-      self.nova_janela.configure(bg="gray")
-
-      tk.Label(self.nova_janela,text="Defina um gasto máximo",bg="gray",font=("Arial",15)).grid(row=0,column=0,sticky="w")
-      self.gasto_mensal_entry = tk.Entry(self.nova_janela)
-      self.gasto_mensal_entry.grid(row=0,column=1,sticky="w")
-
-      self.gastos_mensais_button = tk.Button(self.nova_janela,text="Confirmar",bg="gray",font=("Arial",12),width=10)
-      self.gastos_mensais_button.grid(row=1,column=1,sticky="w")
+    self.gastos_mensais_button = tk.Button(self.nova_janela,text="Confirmar",bg="gray",font=("Arial",12),width=10)
+    self.gastos_mensais_button.grid(row=1,column=1,sticky="w")
 
 
       #def gastar(self):
@@ -375,3 +342,5 @@ class View:
       #print(records)
       #conn.commit()
       #conn.close()
+
+      

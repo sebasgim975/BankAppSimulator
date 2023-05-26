@@ -1,11 +1,13 @@
-class Cliente:
-    def __init__(self, categoria, data):
-        self.__categoria = categoria
-        self.__data = data
+class Adicoes:
+    def __init__(self, record):
+        self.__record = record
 
-    def get_categoria(self):
-        return self.__categoria
+    def get_record(self, posicao):
+        return self.__record[posicao]
+    
+    def get_categoria(self, elemento):
+        for i in range(len(self.__record)):
+            if self.__record[i][0] == elemento:
+                return elemento
         
-    def get_data(self):
-        return self.__data
         
