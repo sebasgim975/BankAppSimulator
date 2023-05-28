@@ -19,7 +19,7 @@ class View:
     self.frase = tk.Label(self.frame, text="Sistema de Controlo de Finanças", font=("arial", 20), foreground="black", bg="#92e3a9")
     self.frase.pack()
     
-    self.imagem_1 = tk.PhotoImage(file="inico.png")
+    self.imagem_1 = tk.PhotoImage(file="inicio.png")
     self.imagem_1 = self.imagem_1.subsample(2)
     self.imagem_1_label = tk.Label(self.frame, image=self.imagem_1, bg="#92e3a9")
     self.imagem_1_label.pack()
