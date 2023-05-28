@@ -5,6 +5,8 @@ from model.AdicoesLinkedList import *
 from model.Adicoes import *
 from model.Cliente import *
 from model.ClientLinkedList import *
+from model.Orcamento import *
+from model.Gastos import *
 import sqlite3
 
 
@@ -19,7 +21,7 @@ class View:
     self.frase = tk.Label(self.frame, text="Sistema de Controlo de Finanças", font=("arial", 20), foreground="black", bg="#92e3a9")
     self.frase.pack()
     
-    self.imagem_1 = tk.PhotoImage(file="inico.png")
+    self.imagem_1 = tk.PhotoImage(file="inicio.png")
     self.imagem_1 = self.imagem_1.subsample(2)
     self.imagem_1_label = tk.Label(self.frame, image=self.imagem_1, bg="#92e3a9")
     self.imagem_1_label.pack()
@@ -100,15 +102,18 @@ class View:
     self.nova_janela = tk.Toplevel()
     self.nova_janela.title("Despesas")
     self.nova_janela.configure(bg="gray")
+
+    self.orcamento_button = tk.Button(self.nova_janela,text="Orçamento",bg="gray",font=("Arial",12),width=30,command=self.orcamento_mensal)
+    self.orcamento_button.grid(row=0,column=0,sticky="w")
       
     self.adicionar_despesas_button = tk.Button(self.nova_janela,text="Adicionar despesas",bg="gray",font=("Arial",12), width=30,command=self.adicionar_despesas)
-    self.adicionar_despesas_button.grid(row=0,column=0,sticky="w")
+    self.adicionar_despesas_button.grid(row=1,column=0,sticky="w")
 
     self.consultar_despesas_button = tk.Button(self.nova_janela,text="Consultar despesas",bg="gray",font=("Arial",12), width=30,command=self.consultar_despesas)
-    self.consultar_despesas_button.grid(row=1,column=0,sticky="w")
+    self.consultar_despesas_button.grid(row=2,column=0,sticky="w")
 
-    self.orcamento_mensal_button = tk.Button(self.nova_janela,text="Orçamento mensal",bg="gray",font=("Arial",12),width=30,command= self.orcamento_mensal)
-    self.orcamento_mensal_button.grid(row=2,column=0,sticky="w")
+    self.gasto_mensal_button = tk.Button(self.nova_janela,text="Limite máximo de gastos",bg="gray",font=("Arial",12),width=30,command= self.limitar_gastos)
+    self.gasto_mensal_button.grid(row=3,column=0,sticky="w")
 
   def adicionar_despesas(self):
     self.nova_janela = tk.Toplevel()
@@ -130,10 +135,6 @@ class View:
     tk.Label(self.nova_janela,text="Data da despesa",bg= "gray",font=("Arial",15)).grid(row=3,column=0,sticky="w")
     self.data_da_despesa_entry= tk.Entry(self.nova_janela)
     self.data_da_despesa_entry.grid(row=3,column=1,sticky="w")
-
-    tk.Label(self.nova_janela,text="Orçamento",bg="gray",font=("Arial",15)).grid(row=4,column=0,sticky="w")
-    self.salario_entry= tk.Entry(self.nova_janela)
-    self.salario_entry.grid(row=4,column=1,sticky="w")
           
     self.adicionar_button = tk.Button(self.nova_janela,text="Adicionar",bg="gray",font=("Arial",12), width=10,command=self.confirmar_adicao)
     self.adicionar_button.grid(row=5,column=1,sticky="w")
@@ -164,16 +165,13 @@ class View:
             'Categoria_de_despesa': self.categoria_de_despesa_entry.get(),
             'Descricao_de_despesa': self.descricao_de_despesa_entry.get(),
             'Valor_da_despesa': self.valor_da_despesa_entry.get(),
-            'Data_da_despesa': self.data_da_despesa_entry.get(),
-            'Orçamento': self.salario_entry.get()
+            'Data_da_despesa': self.data_da_despesa_entry.get()
           }
           )
         self.categoria_de_despesa_entry.delete(0, END)
         self.descricao_de_despesa_entry.delete(0, END)
         self.valor_da_despesa_entry.delete(0, END)
         self.data_da_despesa_entry.delete(0, END)
-        self.salario_entry.delete(0, END)
-
           
         conn.commit()
         conn.close()
@@ -316,23 +314,54 @@ class View:
     self.nova_janela.title("Orçamento mensal")
     self.nova_janela.configure(bg="gray")
 
+    tk.Label(self.nova_janela,text="Escreva o seu salário mensal",bg="gray",font=("Arial",15)).grid(row=0,column=0,sticky="w")
+    self.orcamento_mensal_entry = tk.Entry(self.nova_janela)
+    self.orcamento_mensal_entry.grid(row=0,column=1,sticky="w")
+
+    self.orcamento_mensal_button = tk.Button(self.nova_janela,text="Adicionar",bg="gray",font=("Arial",12),width=10,command= self.adicionar_salario)
+    self.orcamento_mensal_button.grid(row=1,column=1,sticky="w")
+  
+  def limitar_gastos(self):
+    self.nova_janela = tk.Toplevel()
+    self.nova_janela.title("Limite máximo de gastos")
+    self.nova_janela.configure(bg="gray")
+
     tk.Label(self.nova_janela,text="Defina um gasto máximo",bg="gray",font=("Arial",15)).grid(row=0,column=0,sticky="w")
-    self.gasto_mensal_entry = tk.Entry(self.nova_janela)
-    self.gasto_mensal_entry.grid(row=0,column=1,sticky="w")
+    self.gastos_maximos_entry = tk.Entry(self.nova_janela)
+    self.gastos_maximos_entry.grid(row=0,column=1,sticky="w")
 
-    self.gastos_mensais_button = tk.Button(self.nova_janela,text="Confirmar",bg="gray",font=("Arial",12),width=10)
-    self.gastos_mensais_button.grid(row=1,column=1,sticky="w")
+    self.gastos_maximos_button = tk.Button(self.nova_janela,bg="gray", text="Confirmar", font=("Arial",12),width=10,command=self.gastar)
+    self.gastos_maximos_button.grid(row=1,column=1,sticky="w")
 
-
-      #def gastar(self):
-      #  salario = self.salario_entry
-
-      #  if gastos > salario:
-      #      messagebox.showinfo("Erro","Salário insuficiente.")
-      #  elif gastos == salario:
-      #      messagebox.showinfo("Aviso","Valor máximo atingido.")
-      #  else:
-      #      messagebox.showinfo("","Concluido.")
+  def adicionar_salario(self):
+    self.salario = self.orcamento_mensal_entry.get()
+    if self.salario != int or float:
+      try:
+        self.salario = int(self.salario)
+        if type(self.salario) == int:
+          self.salario = Orcamento(self.salario)
+          messagebox.showinfo("","Salário adicionado.")
+      except:
+        TypeError
+        messagebox.showinfo("Erro","Digite o seu salário em valor númerico")
+    
+  def gastar(self):
+    self.gastos = self.gastos_maximos_entry.get()
+    if self.gastos != int or float:
+      try:
+        self.gastos = int(self.gastos)
+        if type(self.gastos) == int:
+          if self.gastos > self.salario.get_orcamento():
+            messagebox.showinfo("Erro","Salário insuficiente.")
+          elif self.gastos == self.salario.get_orcamento():
+            self.gastos = Gastos(self.gastos)
+            messagebox.showinfo("Aviso","Valor máximo atingido.")
+          else:
+            self.gastos = Gastos(self.gastos)
+            messagebox.showinfo("","Gasto máximo definido com sucesso.")
+      except:
+        TypeError
+        messagebox.showinfo("ERRO","O orçamento tem que ser dado númericamente!")
 
 
       #conn=sqlite3.connect('despesas.db')
