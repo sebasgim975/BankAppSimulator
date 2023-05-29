@@ -141,8 +141,6 @@ class View:
 
   def confirmar_adicao(self): 
 
-
-
     if self.categoria_de_despesa_entry.get() == '' or self.descricao_de_despesa_entry.get() == '' or self.valor_da_despesa_entry.get() == '' or self.data_da_despesa_entry.get() == '':
         messagebox.showerror("Erro", "Preencha todos os campos.")
     elif self.categoria_de_despesa_entry.get().isnumeric() == True or self.descricao_de_despesa_entry.get().isnumeric() == True or self.data_da_despesa_entry.get().isnumeric() == True:
@@ -221,8 +219,6 @@ class View:
     for i in range(len(self.records)):
       j=0
       for k in self.records[i]:
-        if k == self.records[i][4]:
-          break
         consultar_label=tk.Label(self.nova_janela, text=k ,bg="white",foreground="black",font=("Arial",12),width=25, height=1)
         consultar_label.grid(row=i+3, column=j, columnspan=1)
         j+=1
@@ -293,8 +289,6 @@ class View:
           for i in range(len(self.records)):         # Limpa a tabela
             j=0
             for k in self.records[i]:
-                if k == self.records[i][4]:
-                   break
                 consultar_label=tk.Label(self.nova_janela, text='' ,bg="white",foreground="black",font=("Arial",12),width=25, height=1)
                 consultar_label.grid(row=i+3, column=j, columnspan=1)
                 j+=1
@@ -312,8 +306,6 @@ class View:
           for i in range(len(self.records)):         # Limpa a tabela
             j=0
             for k in self.records[i]:
-              if k == self.records[i][4]:
-                break
               consultar_label=tk.Label(self.nova_janela, text='' ,bg="white",foreground="black",font=("Arial",12),width=25, height=1)
               consultar_label.grid(row=i+3, column=j, columnspan=1)
               j+=1
@@ -321,8 +313,6 @@ class View:
           for i in range(len(self.records)):
              j=0
              for k in self.records[i]:
-                if k == self.records[i][4]:
-                   break
                 consultar_label=tk.Label(self.nova_janela, text=k ,bg="white",foreground="black",font=("Arial",12),width=25, height=1)
                 consultar_label.grid(row=i+3, column=j, columnspan=1)
                 j+=1
