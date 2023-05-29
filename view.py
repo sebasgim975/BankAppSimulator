@@ -6,7 +6,6 @@ from model.Adicoes import *
 from model.Cliente import *
 from model.ClientLinkedList import *
 from model.Orcamento import *
-from model.Gastos import *
 import sqlite3
 
 
@@ -142,25 +141,44 @@ class View:
 
   def confirmar_adicao(self): 
     if self.categoria_de_despesa_entry.get() == '' or self.descricao_de_despesa_entry.get() == '' or self.valor_da_despesa_entry.get() == '' or self.data_da_despesa_entry.get() == '':
-        messagebox.showerror("Erro", "Falta prencher adições")
+        messagebox.showerror("Erro", "Preencha todos os campos.")
     elif self.categoria_de_despesa_entry.get().isnumeric() == True or self.descricao_de_despesa_entry.get().isnumeric() == True or self.data_da_despesa_entry.get().isnumeric() == True:
         messagebox.showerror("Erro", "Input invalido")
     elif self.categoria_de_despesa_entry.get() == self.descricao_de_despesa_entry.get() or self.categoria_de_despesa_entry.get() == self.data_da_despesa_entry.get() or self.descricao_de_despesa_entry.get() == self.data_da_despesa_entry.get():
         messagebox.showerror("Erro", "Input invalido")
-    else:
-        
+    else:        
         try:
-           float(self.valor_da_despesa_entry.get())
-           True
+          self.valor_da_despesa_atual = float(self.valor_da_despesa_entry.get()) 
         except ValueError:
-           messagebox.showerror("Erro", "Valor de despesa invalido")
+          messagebox.showerror("Erro", "Valor de despesa invalido")
         
+        self.salario.despesa_adicionar(self.valor_da_despesa_atual)
+        self.orcamento_inicial = self.salario.get_orcamento()
+        self.orcamento_atual = self.salario.retirar(self.salario.get_orcamento(),self.valor_da_despesa_atual)
+        if self.salario.get_gasto_maximo() != 0:
+          self.salario.despesa_adicionar_gastos(self.valor_da_despesa_atual)
+          x = self.salario.get_gasto_maximo() - self.salario.get_gasto_maximo()*0.1
 
+          if self.salario.get_gasto_maximo() < self.salario.get_valor_despesa_total_gastos() :
+            messagebox.showerror("Erro","Ultrapassou do limite máximo de gastos")
+          elif x <= self.salario.get_valor_despesa_total_gastos():
+            messagebox.showwarning("Aviso","Está próximo de ultrapassar o limite máximo de gastos")
+          else:
+            self.salario.set_orcamento(self.orcamento_atual)  
+
+        else:
+          if self.orcamento_atual < 0:
+            messagebox.showerror("Erro","Ultrapassou do limite do seu orçamento")
+          elif self.orcamento_atual <= self.orcamento_inicial*0.1:
+            messagebox.showwarning("Aviso","Está próximo de ultrapassar o limite do seu orçamento")
+          else:
+            self.salario.set_orcamento(self.orcamento_atual)  
+             
 
         conn=sqlite3.connect('despesas.db')
         c=conn.cursor()
 
-        c.execute("INSERT INTO addresses VALUES (:Categoria_de_despesa, :Descricao_de_despesa, :Valor_da_despesa, :Data_da_despesa, :Orçamento)",
+        c.execute("INSERT INTO addresses VALUES (:Categoria_de_despesa, :Descricao_de_despesa, :Valor_da_despesa, :Data_da_despesa)",
           {
             'Categoria_de_despesa': self.categoria_de_despesa_entry.get(),
             'Descricao_de_despesa': self.descricao_de_despesa_entry.get(),
@@ -335,33 +353,33 @@ class View:
 
   def adicionar_salario(self):
     self.salario = self.orcamento_mensal_entry.get()
-    if self.salario != int or float:
+    if self.salario != float:
       try:
-        self.salario = int(self.salario)
-        if type(self.salario) == int:
-          self.salario = Orcamento(self.salario)
-          messagebox.showinfo("","Salário adicionado.")
-      except:
-        TypeError
-        messagebox.showinfo("Erro","Digite o seu salário em valor númerico")
+        self.salario = float(self.salario)
+        self.salario = Orcamento(self.salario,0,0,0)
+        messagebox.showinfo("","Orçamento adicionado.")
+        self.nova_janela.destroy()
+      except ValueError:
+        messagebox.showerror("Erro","Digite o seu salário em valor númerico")
     
   def gastar(self):
     self.gastos = self.gastos_maximos_entry.get()
     if self.gastos != int or float:
       try:
-        self.gastos = int(self.gastos)
-        if type(self.gastos) == int:
-          if self.gastos > self.salario.get_orcamento():
-            messagebox.showinfo("Erro","Salário insuficiente.")
-          elif self.gastos == self.salario.get_orcamento():
-            self.gastos = Gastos(self.gastos)
-            messagebox.showinfo("Aviso","Valor máximo atingido.")
-          else:
-            self.gastos = Gastos(self.gastos)
-            messagebox.showinfo("","Gasto máximo definido com sucesso.")
-      except:
-        TypeError
-        messagebox.showinfo("ERRO","O orçamento tem que ser dado númericamente!")
+        self.gastos = float(self.gastos)
+        if self.gastos > self.salario.get_orcamento():
+          messagebox.showerror("Erro","Orçamento insuficiente.")
+        elif self.gastos == self.salario.get_orcamento():
+          self.salario.set_gasto_maximo(self.gastos)
+          messagebox.showwarning("Aviso","Valor máximo atingido.")
+          self.nova_janela.destroy()
+        else:
+          self.salario.set_gasto_maximo(self.gastos)
+          messagebox.showinfo("","Gasto máximo definido com sucesso.")
+          self.nova_janela.destroy()
+      except ValueError:
+        messagebox.showerror("ERRO","O orçamento tem que ser dado númericamente!")
+        
 
 
       #conn=sqlite3.connect('despesas.db')
