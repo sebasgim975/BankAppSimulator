@@ -140,6 +140,9 @@ class View:
 
 
   def confirmar_adicao(self): 
+
+
+
     if self.categoria_de_despesa_entry.get() == '' or self.descricao_de_despesa_entry.get() == '' or self.valor_da_despesa_entry.get() == '' or self.data_da_despesa_entry.get() == '':
         messagebox.showerror("Erro", "Falta prencher adições")
     elif self.categoria_de_despesa_entry.get().isnumeric() == True or self.descricao_de_despesa_entry.get().isnumeric() == True or self.data_da_despesa_entry.get().isnumeric() == True:
