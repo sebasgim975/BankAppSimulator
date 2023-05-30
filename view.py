@@ -54,20 +54,20 @@ class View:
   def confirmar_registar(self):
     self.user_info = Cliente(self.nome_entry.get(), self.password_entry.get(), self.nif_entry.get())
     if self.users.find_username(self.user_info.get_nome())!=-1:
-      messagebox.showerror("Erro", "Username existe")
+      messagebox.showerror("Erro", "O Username já existe.")
       self.nova_janela.destroy()
     elif self.users.find_NIF(self.user_info.get_nif())!=-1 or len(self.user_info.get_nif())!=9 or self.user_info.get_nif().isnumeric()==False:
-      messagebox.showerror("Erro", "NIF invalido")
+      messagebox.showerror("Erro", "NIF invalido.")
       self.nova_janela.destroy()
     elif self.users.size==0:
       posicao=self.users.size
       self.users.insert_first(self.user_info)
-      messagebox.showinfo("Succeso", "Username registado")
+      messagebox.showinfo("Sucesso", "Utilizador registado.")
       self.nova_janela.destroy()
     else:
       posicao=self.users.size
       self.users.insert(self.user_info, posicao)
-      messagebox.showinfo("Succeso", "Username registado")
+      messagebox.showinfo("Sucesso", "Utilizador registado.")
       self.nova_janela.destroy()
 
     
@@ -90,7 +90,7 @@ class View:
     
   def confirmar_login(self):
     if self.users.find_login_info(self.nome_entry.get(), self.password_entry.get())==-1:
-      messagebox.showerror("Erro", "Login incorreto")
+      messagebox.showerror("Erro", "Não se encontra registado ou digitou os seus dados errado.")
       self.nova_janela.destroy()
     else:
       self.nova_janela.destroy()
@@ -146,35 +146,37 @@ class View:
     elif self.categoria_de_despesa_entry.get().isnumeric() == True or self.descricao_de_despesa_entry.get().isnumeric() == True or self.data_da_despesa_entry.get().isnumeric() == True:
         messagebox.showerror("Erro", "Input invalido")
     elif self.categoria_de_despesa_entry.get() == self.descricao_de_despesa_entry.get() or self.categoria_de_despesa_entry.get() == self.data_da_despesa_entry.get() or self.descricao_de_despesa_entry.get() == self.data_da_despesa_entry.get():
-        messagebox.showerror("Erro", "Input invalido")
+        messagebox.showerror("Erro", "Não repita dados.")
     else:        
         try:
           self.valor_da_despesa_atual = float(self.valor_da_despesa_entry.get()) 
         except ValueError:
           messagebox.showerror("Erro", "Valor de despesa invalido")
         
-        self.salario.despesa_adicionar(self.valor_da_despesa_atual)
-        self.orcamento_inicial = self.salario.get_orcamento()
-        self.orcamento_atual = self.salario.retirar(self.salario.get_orcamento(),self.valor_da_despesa_atual)
-        if self.salario.get_gasto_maximo() != 0:
-          self.salario.despesa_adicionar_gastos(self.valor_da_despesa_atual)
-          x = self.salario.get_gasto_maximo() - self.salario.get_gasto_maximo()*0.1
+        try:
+          self.salario.despesa_adicionar(self.valor_da_despesa_atual)
+          self.orcamento_inicial = self.salario.get_orcamento()
+          self.orcamento_atual = self.salario.retirar(self.salario.get_orcamento(),self.valor_da_despesa_atual)
+          if self.salario.get_gasto_maximo() != 0:
+            self.salario.despesa_adicionar_gastos(self.valor_da_despesa_atual)
+            x = self.salario.get_gasto_maximo() - self.salario.get_gasto_maximo()*0.1
 
-          if self.salario.get_gasto_maximo() < self.salario.get_valor_despesa_total_gastos() :
-            messagebox.showerror("Erro","Ultrapassou do limite máximo de gastos")
-          elif x <= self.salario.get_valor_despesa_total_gastos():
-            messagebox.showwarning("Aviso","Está próximo de ultrapassar o limite máximo de gastos")
-          else:
-            self.salario.set_orcamento(self.orcamento_atual)  
+            if self.salario.get_gasto_maximo() < self.salario.get_valor_despesa_total_gastos() :
+              messagebox.showerror("Erro","Ultrapassou do limite máximo de gastos")
+            elif x <= self.salario.get_valor_despesa_total_gastos():
+              messagebox.showwarning("Aviso","Está próximo de ultrapassar o limite máximo de gastos")
+            else:
+              self.salario.set_orcamento(self.orcamento_atual)  
 
-        else:
-          if self.orcamento_atual < 0:
-            messagebox.showerror("Erro","Ultrapassou do limite do seu orçamento")
-          elif self.orcamento_atual <= self.orcamento_inicial*0.1:
-            messagebox.showwarning("Aviso","Está próximo de ultrapassar o limite do seu orçamento")
           else:
-            self.salario.set_orcamento(self.orcamento_atual)  
-             
+            if self.orcamento_atual < 0:
+              messagebox.showerror("Erro","Ultrapassou do limite do seu orçamento")
+            elif self.orcamento_atual <= self.orcamento_inicial*0.1:
+              messagebox.showwarning("Aviso","Está próximo de ultrapassar o limite do seu orçamento")
+            else:
+              self.salario.set_orcamento(self.orcamento_atual)  
+        except AttributeError:
+          messagebox.showerror("Erro","É necessário definir um orçamento previamente")
 
         conn=sqlite3.connect('despesas.db')
         c=conn.cursor()
@@ -214,7 +216,7 @@ class View:
     temp_categoria_de_despesa=[None]*len(self.records)+[None]
     temp_data_da_despesa=[None]*len(self.records)+[None]
 
-    ascendente_descendente=["ascendente", "descendente", "----"]
+    ascendente_descendente=["Ascendente", "Descendente", "----"]
 
     for i in range(len(self.records)):
       j=0
