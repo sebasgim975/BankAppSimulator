@@ -8,7 +8,7 @@ from model.ClientLinkedList import *
 from model.Orcamento import *
 import sqlite3
 from tkinter import ttk
-
+from tkcalendar import DateEntry
 
 class View:
   def __init__(self, master):
@@ -137,7 +137,7 @@ class View:
     self.valor_da_despesa_entry.grid(row=2,column=1,sticky="w")
 
     tk.Label(self.nova_janela,text="Data da despesa",bg= "#92e3a9",font=("Times New Roman",15)).grid(row=3,column=0,sticky="w")
-    self.data_da_despesa_entry= tk.Entry(self.nova_janela)
+    self.data_da_despesa_entry= DateEntry(self.nova_janela)
     self.data_da_despesa_entry.grid(row=3,column=1,sticky="w")
           
     self.adicionar_button = tk.Button(self.nova_janela,text="Adicionar",bg="#2e5448",foreground="white",font=("Times New Roman",12), width=10,command=self.confirmar_adicao)
