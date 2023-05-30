@@ -7,6 +7,7 @@ from model.Cliente import *
 from model.ClientLinkedList import *
 from model.Orcamento import *
 import sqlite3
+from tkinter import ttk
 
 
 class View:
@@ -17,17 +18,20 @@ class View:
     
     self.frame = tk.Frame(self.master, bg="#92e3a9", padx=300, pady=250)
     self.frame.pack(fill=tk.BOTH, expand=True)
-    self.frase = tk.Label(self.frame, text="Sistema de Controlo de Finanças", font=("arial", 20), foreground="black", bg="#92e3a9")
+    self.frase = tk.Label(self.frame, text="Sistema de Controlo de Finanças", font=("Elephant", 30), foreground="#1f453b", bg="#92e3a9")
     self.frase.pack()
+    
+    self.imagem_2 = tk.PhotoImage(file="2.png")
+    self.imagem_2 = self.imagem_2.subsample(3)
     
     self.imagem_1 = tk.PhotoImage(file="inicio.png")
     self.imagem_1 = self.imagem_1.subsample(2)
     self.imagem_1_label = tk.Label(self.frame, image=self.imagem_1, bg="#92e3a9")
     self.imagem_1_label.pack()
     
-    self.login_button = tk.Button(self.frame,text="Login",bg="white",foreground="black",font=("Arial",12),width=20, height=2,command=self.login)
+    self.login_button = tk.Button(self.frame,text="Login",bg="#2e5448",foreground="white",font=("Elephant",16),width=20, height=2,command=self.login)
     self.login_button.pack(pady=5)
-    self.registo_button = tk.Button(self.frame,text="Registo",bg="white",foreground="black",font=("Arial",12),width=20, height=2,command=self.registar)
+    self.registo_button = tk.Button(self.frame,text="Registo",bg="#2e5448",foreground="white",font=("Elephant",16),width=20, height=2,command=self.registar)
     self.registo_button.pack(pady=5)
 
 
@@ -35,19 +39,19 @@ class View:
     self.nova_janela = tk.Toplevel(self.master, bg="#92e3a9", padx=200, pady=150)
     self.nova_janela.title("Registo")
 
-    tk.Label(self.nova_janela,text="Nome de utilizador",bg= "#92e3a9",font=("Arial",15)).grid(row=0,column=0,sticky="w")
+    tk.Label(self.nova_janela,text="Nome de utilizador",bg= "#92e3a9",font=("Times New Roman",15)).grid(row=0,column=0,sticky="w")
     self.nome_entry = tk.Entry(self.nova_janela)
     self.nome_entry.grid(row=0,column=1,sticky="w")
 
-    tk.Label(self.nova_janela,text="Password",bg= "#92e3a9",font=("Arial",15)).grid(row=1,column=0,sticky="w")
+    tk.Label(self.nova_janela,text="Password",bg= "#92e3a9",font=("Times New Roman",15)).grid(row=1,column=0,sticky="w")
     self.password_entry = tk.Entry(self.nova_janela,show="*")
     self.password_entry.grid(row=1,column=1,sticky="w")
 
-    tk.Label(self.nova_janela,text="NIF",bg= "#92e3a9",font=("Arial",15)).grid(row=2,column=0,sticky="w")
+    tk.Label(self.nova_janela,text="NIF",bg= "#92e3a9",font=("Times New Roman",15)).grid(row=2,column=0,sticky="w")
     self.nif_entry= tk.Entry(self.nova_janela)
     self.nif_entry.grid(row=2,column=1,sticky="w")
           
-    self.registo_f_button = tk.Button(self.nova_janela,text="Registar",bg="white",font=("Arial",12), width=10,command=self.confirmar_registar)
+    self.registo_f_button = tk.Button(self.nova_janela,text="Registar",bg="#2e5448", foreground="white", font=("Times New Roman",12), width=10,command=self.confirmar_registar)
     self.registo_f_button.grid(row=4,column=4,sticky="w")
 
             
@@ -72,20 +76,19 @@ class View:
 
     
   def login(self):
-    self.nova_janela = tk.Toplevel()
+    self.nova_janela = tk.Toplevel(self.master, bg="#92e3a9", padx=200, pady=150)
     self.nova_janela.title("Login")
-    self.nova_janela.configure(bg="gray")
 
-    tk.Label(self.nova_janela,text="Nome de utilizador",bg= "gray",font=("Arial",15)).grid(row=0,column=0,sticky="w")
+    tk.Label(self.nova_janela,text="Nome de utilizador",bg= "#92e3a9",font=("Times New Roman",15)).grid(row=0,column=0,sticky="w")
     self.nome_entry = tk.Entry(self.nova_janela)
     self.nome_entry.grid(row=0,column=1,sticky="w")
 
-    tk.Label(self.nova_janela,text="Password",bg= "gray",font=("Arial",15)).grid(row=1,column=0,sticky="w")
+    tk.Label(self.nova_janela,text="Password",bg= "#92e3a9",font=("Times New Roman",15)).grid(row=1,column=0,sticky="w")
     self.password_entry = tk.Entry(self.nova_janela,show="*")
     self.password_entry.grid(row=1,column=1,sticky="w")
           
-    self.registo_f_button = tk.Button(self.nova_janela,text="Login",bg="gray",font=("Arial",12), width=10,command=self.confirmar_login)
-    self.registo_f_button.grid(row=4,column=4,sticky="w")
+    self.registo_f_button = tk.Button(self.nova_janela,text="Login",bg="#2e5448",foreground="white",font=("Times New Roman",12), width=10,command=self.confirmar_login)
+    self.registo_f_button.grid(row=4,column=4)
 
     
   def confirmar_login(self):
@@ -98,44 +101,46 @@ class View:
 
 
   def despesas(self):
-    self.nova_janela = tk.Toplevel()
+    self.nova_janela = tk.Toplevel(self.master, bg="#92e3a9", padx=200, pady=150)
     self.nova_janela.title("Despesas")
-    self.nova_janela.configure(bg="gray")
+    
+    
+    self.imagem_2_label = tk.Label(self.nova_janela, image=self.imagem_2, bg="#92e3a9")
+    self.imagem_2_label.pack(pady=10)
 
-    self.orcamento_button = tk.Button(self.nova_janela,text="Orçamento",bg="gray",font=("Arial",12),width=30,command=self.orcamento_mensal)
-    self.orcamento_button.grid(row=0,column=0,sticky="w")
+    self.orcamento_button = tk.Button(self.nova_janela,text="Definir Orçamento",bg="#2e5448",foreground="white",font=("Times New Roman",14),width=30,command=self.orcamento_mensal)
+    self.orcamento_button.pack(pady=5)
       
-    self.adicionar_despesas_button = tk.Button(self.nova_janela,text="Adicionar despesas",bg="gray",font=("Arial",12), width=30,command=self.adicionar_despesas)
-    self.adicionar_despesas_button.grid(row=1,column=0,sticky="w")
+    self.adicionar_despesas_button = tk.Button(self.nova_janela,text="Adicionar despesas",bg="#2e5448",foreground="white",font=("Times New Roman",14), width=30,command=self.adicionar_despesas)
+    self.adicionar_despesas_button.pack(pady=5)
 
-    self.consultar_despesas_button = tk.Button(self.nova_janela,text="Consultar despesas",bg="gray",font=("Arial",12), width=30,command=self.consultar_despesas)
-    self.consultar_despesas_button.grid(row=2,column=0,sticky="w")
+    self.consultar_despesas_button = tk.Button(self.nova_janela,text="Consultar despesas",bg="#2e5448",foreground="white",font=("Times New Roman",14), width=30,command=self.consultar_despesas)
+    self.consultar_despesas_button.pack(pady=5)
 
-    self.gasto_mensal_button = tk.Button(self.nova_janela,text="Limite máximo de gastos",bg="gray",font=("Arial",12),width=30,command= self.limitar_gastos)
-    self.gasto_mensal_button.grid(row=3,column=0,sticky="w")
+    self.gasto_mensal_button = tk.Button(self.nova_janela,text="Limite máximo de gastos",bg="#2e5448",foreground="white",font=("Times New Roman",14),width=30,command= self.limitar_gastos)
+    self.gasto_mensal_button.pack(pady=5)
 
   def adicionar_despesas(self):
-    self.nova_janela = tk.Toplevel()
+    self.nova_janela = tk.Toplevel(self.master, bg="#92e3a9", padx=200, pady=150)
     self.nova_janela.title("Adicionar despesas")
-    self.nova_janela.configure(bg="gray")
 
-    tk.Label(self.nova_janela,text="Categoria de despesa",bg= "gray",font=("Arial",15)).grid(row=0,column=0,sticky="w")
-    self.categoria_de_despesa_entry = tk.Entry(self.nova_janela)
+    tk.Label(self.nova_janela,text="Categoria de despesa",bg= "#92e3a9",font=("Times New Roman",15)).grid(row=0,column=0,sticky="w")
+    self.categoria_de_despesa_entry = ttk.Combobox(self.nova_janela, values=["Casa", "Supermercado", "Carro", "Restaurante", "Lazer"])
     self.categoria_de_despesa_entry.grid(row=0,column=1,sticky="w")
 
-    tk.Label(self.nova_janela,text="Descrição de despesa",bg= "gray",font=("Arial",15)).grid(row=1,column=0,sticky="w")
+    tk.Label(self.nova_janela,text="Descrição de despesa",bg= "#92e3a9",font=("Times New Roman",15)).grid(row=1,column=0,sticky="w")
     self.descricao_de_despesa_entry = tk.Entry(self.nova_janela)
     self.descricao_de_despesa_entry.grid(row=1,column=1,sticky="w")
 
-    tk.Label(self.nova_janela,text="Valor da despesa",bg= "gray",font=("Arial",15)).grid(row=2,column=0,sticky="w")
+    tk.Label(self.nova_janela,text="Valor da despesa",bg= "#92e3a9",font=("Times New Roman",15)).grid(row=2,column=0,sticky="w")
     self.valor_da_despesa_entry= tk.Entry(self.nova_janela)
     self.valor_da_despesa_entry.grid(row=2,column=1,sticky="w")
 
-    tk.Label(self.nova_janela,text="Data da despesa",bg= "gray",font=("Arial",15)).grid(row=3,column=0,sticky="w")
+    tk.Label(self.nova_janela,text="Data da despesa",bg= "#92e3a9",font=("Times New Roman",15)).grid(row=3,column=0,sticky="w")
     self.data_da_despesa_entry= tk.Entry(self.nova_janela)
     self.data_da_despesa_entry.grid(row=3,column=1,sticky="w")
           
-    self.adicionar_button = tk.Button(self.nova_janela,text="Adicionar",bg="gray",font=("Arial",12), width=10,command=self.confirmar_adicao)
+    self.adicionar_button = tk.Button(self.nova_janela,text="Adicionar",bg="#2e5448",foreground="white",font=("Times New Roman",12), width=10,command=self.confirmar_adicao)
     self.adicionar_button.grid(row=5,column=1,sticky="w")
 
 
@@ -196,14 +201,13 @@ class View:
         conn.close()
 
   def consultar_despesas(self):
-    self.nova_janela = tk.Toplevel()
+    self.nova_janela = tk.Toplevel(self.master, bg="#92e3a9", padx=200, pady=150)
     self.nova_janela.title("Consultar despesas")
-    self.nova_janela.configure(bg="gray")
 
-    tk.Label(self.nova_janela,text="Categoria de despesa",bg= "gray",font=("Arial",15)).grid(row=2,column=0,sticky="w")
-    tk.Label(self.nova_janela,text="Descrição de despesa",bg= "gray",font=("Arial",15)).grid(row=2,column=1,sticky="w")
-    tk.Label(self.nova_janela,text="Valor da despesa",bg= "gray",font=("Arial",15)).grid(row=2,column=2,sticky="w")
-    tk.Label(self.nova_janela,text="Data da despesa",bg= "gray",font=("Arial",15)).grid(row=2,column=3,sticky="w")
+    tk.Label(self.nova_janela,text="Categoria de despesa",bg= "#92e3a9",font=("Times New Roman",15)).grid(row=2,column=0,sticky="w")
+    tk.Label(self.nova_janela,text="Descrição de despesa",bg= "#92e3a9",font=("Times New Roman",15)).grid(row=2,column=1,sticky="w")
+    tk.Label(self.nova_janela,text="Valor da despesa",bg= "#92e3a9",font=("Times New Roman",15)).grid(row=2,column=2,sticky="w")
+    tk.Label(self.nova_janela,text="Data da despesa",bg= "#92e3a9",font=("Times New Roman",15)).grid(row=2,column=3,sticky="w")
 
     conn=sqlite3.connect('despesas.db')
     c=conn.cursor()
@@ -249,8 +253,8 @@ class View:
     self.drop_valor_da_despesa=tk.OptionMenu(self.nova_janela, self.clicked_valor_da_despesa, *ascendente_descendente).grid(row=1, column=2)
     self.drop_data_da_despesa=tk.OptionMenu(self.nova_janela, self.clicked_data_da_despesa, *data_da_despesa).grid(row=1, column=3)
 
-    self.button_configure=tk.Button(self.nova_janela, text="Configurar",bg="gray",font=("Arial",12), width=10, command=self.confirmar_configuracao)
-    self.button_configure.grid(row=0, column=1)
+    self.button_configure=tk.Button(self.nova_janela, text="Configurar",bg="#2e5448",foreground="white",font=("Arial",12), width=10, command=self.confirmar_configuracao, padx=5)
+    self.button_configure.grid(row=2, column=4)
 
     self.nova_janela.mainloop()
 
@@ -296,7 +300,7 @@ class View:
           for i in range(tabela_adicoes.size):
                 if i > 0 and tabela_adicoes.head.next_node != None:
                    tabela_adicoes.head=tabela_adicoes.head.next_node
-                for j in range(len(tabela_adicoes.head.element) - 1):
+                for j in range(len(tabela_adicoes.head.element)):
                   consultar_label=tk.Label(self.nova_janela, text=tabela_adicoes.head.element[j] ,bg="white",foreground="black",font=("Arial",12),width=25, height=1)
                   consultar_label.grid(row=i+3, column=j, columnspan=1)
 
@@ -321,27 +325,27 @@ class View:
 
 
   def orcamento_mensal(self):
-    self.nova_janela = tk.Toplevel()
+    self.nova_janela = tk.Toplevel(self.master, bg="#92e3a9", padx=200, pady=150)
     self.nova_janela.title("Orçamento mensal")
-    self.nova_janela.configure(bg="gray")
 
-    tk.Label(self.nova_janela,text="Escreva o seu salário mensal",bg="gray",font=("Arial",15)).grid(row=0,column=0,sticky="w")
+    tk.Label(self.nova_janela,text="Indique-nos o seu orçamento mensal disponível:",bg="#92e3a9",font=("Times New Roman",18)).grid(row=0,column=0,sticky="w")
+    
     self.orcamento_mensal_entry = tk.Entry(self.nova_janela)
     self.orcamento_mensal_entry.grid(row=0,column=1,sticky="w")
 
-    self.orcamento_mensal_button = tk.Button(self.nova_janela,text="Adicionar",bg="gray",font=("Arial",12),width=10,command= self.adicionar_salario)
+    self.orcamento_mensal_button = tk.Button(self.nova_janela,text="Adicionar",bg="#2e5448",foreground="white",font=("Times New Roman",14),width=10,command= self.adicionar_salario)
     self.orcamento_mensal_button.grid(row=1,column=1,sticky="w")
   
   def limitar_gastos(self):
-    self.nova_janela = tk.Toplevel()
+    self.nova_janela = tk.Toplevel(self.master, bg="#92e3a9", padx=200, pady=150)
     self.nova_janela.title("Limite máximo de gastos")
-    self.nova_janela.configure(bg="gray")
+  
 
-    tk.Label(self.nova_janela,text="Defina um gasto máximo",bg="gray",font=("Arial",15)).grid(row=0,column=0,sticky="w")
+    tk.Label(self.nova_janela,text="Defina um gasto máximo",bg="#92e3a9",font=("Times New Roman",18)).grid(row=0,column=0,sticky="w")
     self.gastos_maximos_entry = tk.Entry(self.nova_janela)
     self.gastos_maximos_entry.grid(row=0,column=1,sticky="w")
 
-    self.gastos_maximos_button = tk.Button(self.nova_janela,bg="gray", text="Confirmar", font=("Arial",12),width=10,command=self.gastar)
+    self.gastos_maximos_button = tk.Button(self.nova_janela,bg="#2e5448",foreground="white", text="Confirmar", font=("Arial",12),width=10,command=self.gastar)
     self.gastos_maximos_button.grid(row=1,column=1,sticky="w")
 
   def adicionar_salario(self):
