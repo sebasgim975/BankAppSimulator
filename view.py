@@ -296,7 +296,7 @@ class View:
           for i in range(tabela_adicoes.size):
                 if i > 0 and tabela_adicoes.head.next_node != None:
                    tabela_adicoes.head=tabela_adicoes.head.next_node
-                for j in range(len(tabela_adicoes.head.element) - 1):
+                for j in range(len(tabela_adicoes.head.element)):
                   consultar_label=tk.Label(self.nova_janela, text=tabela_adicoes.head.element[j] ,bg="white",foreground="black",font=("Arial",12),width=25, height=1)
                   consultar_label.grid(row=i+3, column=j, columnspan=1)
 
