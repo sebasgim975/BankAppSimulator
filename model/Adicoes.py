@@ -24,17 +24,17 @@ class Adicoes:
         return media
     
     def sugestao(self, categoria):
-        advice=''
+        advice=""
         if categoria == "Casa":
-            advice="xxxx"
+            advice="Tente gastar menos na seção da casa evitando gastos desnecessaários."
         if categoria == "Supermercado":
-            advice="xxxx"
+            advice="No supermercado, tente procurar promoções sempre que possível."
         if categoria == "Carro":
-            advice="xxxx"
+            advice="Considere usar mais os transportes públicos, ou outras formas de mobilidade."
         if categoria == "Restaurante":
-            advice="xxxx"
+            advice="Evite fazer diversas refeições fora de casa."
         if categoria == "Lazer":
-            advice="xxxx"
+            advice="Tente não ser muito dispendioso nos seus gastos no lazer, decerto que outras categorias merecem mais investimento."
         if categoria == "Outros":
-            advice="xxxx"
+            advice=f"Tente gastar menos em/na categoria {categoria}"
         return advice
