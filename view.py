@@ -145,8 +145,8 @@ class View:
     self.gasto_mensal_button = tk.Button(self.nova_janela,text="Limite máximo de gastos",bg="#2e5448",foreground="white",font=("Times New Roman",14),width=30,command= self.limitar_gastos)
     self.gasto_mensal_button.pack(pady=5)
 
-    self.analise_button = tk.Button(self.nova_janela,text="Analise das despesas",bg="gray",font=("Arial",12),width=30,command= self.analise)
-    self.analise_button.grid(row=4,column=0,sticky="w")
+    self.analise_button = tk.Button(self.nova_janela,text="Analise das despesas",bg="#2e5448",foreground="white",font=("Times New Roman",14),width=30,command= self.analise)
+    self.analise_button.pack(pady=5)
 
   def adicionar_despesas(self):
     self.nova_janela = tk.Toplevel(self.master, bg="#92e3a9", padx=200, pady=150)
@@ -489,7 +489,7 @@ class View:
     c=conn.cursor()
     self.nova_janela = tk.Toplevel()
     self.nova_janela.title("Analise de despesas")
-    self.nova_janela.configure(bg="gray")
+    self.nova_janela.configure(bg="#2e5448")
 
     self.saved_table=c.execute("SELECT * FROM user_data WHERE Nome_do_utilizador = ?", (self.nome_actual,)).fetchall()
     lenght=len(self.saved_table)+1
