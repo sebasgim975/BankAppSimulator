@@ -264,6 +264,7 @@ class View:
     
     conn.commit()
     conn.close()
+    messagebox.showinfo("Succeso", "Despesas adicionadas")
 
 
   def consultar_despesas(self):
