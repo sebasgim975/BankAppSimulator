@@ -54,11 +54,14 @@ class View:
   def confirmar_registar(self):
     conn=sqlite3.connect('saved_data.db')
     c=conn.cursor()
-    #c.execute("DROP TABLE user_data")
+
+    c.execute("DROP TABLE user_data")
+
     
     c.execute("""CREATE TABLE if not exists user_data (Nome_do_utilizador text, Password text, NIF text, Categoria_de_despesa text ,Descricao_de_despesa text,Valor_da_despesa float,Data_da_despesa text, Orcamento_actual float, Orcamento_inicial float, Gasto_maximo float, Valor_despesa_total float, Valor_despesa_total_gastos float)""")    
     c.execute("SELECT * FROM user_data")
     self.saved_table=c.fetchall()
+    
 
     self.user_info = Cliente(self.nome_entry.get(), self.password_entry.get(), self.nif_entry.get())
     if self.user_info.find_nome(self.saved_table) == 1:
@@ -68,6 +71,7 @@ class View:
       messagebox.showerror("Erro", "NIF invalido")
       self.nova_janela.destroy()
     else:
+
       c.execute("INSERT INTO user_data (Nome_do_utilizador, Password, NIF, Categoria_de_despesa, Orcamento_actual)VALUES (:Nome_do_utilizador, :Password, :NIF,  :Categoria_de_despesa, :Orcamento_actual)",
             {
               'Nome_do_utilizador': self.nome_entry.get(),
@@ -133,6 +137,9 @@ class View:
 
     self.consultar_despesas_button = tk.Button(self.nova_janela,text="Consultar despesas",bg="gray",font=("Arial",12), width=30,command=self.consultar_despesas)
     self.consultar_despesas_button.grid(row=2,column=0,sticky="w")
+
+    self.gasto_mensal_button = tk.Button(self.nova_janela,text="Limite máximo de gastos",bg="gray",font=("Arial",12),width=30,command= self.limitar_gastos)
+    self.gasto_mensal_button.grid(row=3,column=0,sticky="w")
 
     self.analise_button = tk.Button(self.nova_janela,text="Analise das despesas",bg="gray",font=("Arial",12),width=30,command= self.analise)
     self.analise_button.grid(row=4,column=0,sticky="w")
@@ -205,6 +212,7 @@ class View:
               conn.close()
               self.salario.set_orcamento(self.orcamento_atual)  
               self.confirmar_adicoes()
+
           else:
             if self.orcamento_atual < 0:
               messagebox.showerror("Erro","Ultrapassou do limite do seu orçamento")
@@ -255,6 +263,7 @@ class View:
     conn.close()
 
         
+        
 
   def consultar_despesas(self):
     conn=sqlite3.connect('saved_data.db')
@@ -276,6 +285,7 @@ class View:
     temp_categoria=[None]*lenght
     temp_data=[None]*lenght
 
+
     for i in range(len(self.saved_table)):
       if i == len(self.saved_table)-1:
          temp_categoria[i+1]="----"
@@ -288,10 +298,13 @@ class View:
     self.data_da_despesa = []
     [self.data_da_despesa.append(x) for x in temp_data if x not in self.data_da_despesa]
 
+
     self.records=[[None for i in range(4)] for j in range(lenght-1)]
     for i in range(lenght-1):
        for k in range(4):
           self.records[i][k]=self.saved_table[i][3+k]
+
+
 
     self.tabela=Adicoes(self.records)
 
@@ -302,8 +315,12 @@ class View:
             consultar_label.grid(row=i+3, column=j, columnspan=1)
             j+=1
 
+   
+    print(self.records)
+
     ascendente_descendente=["ascendente", "descendente", "----"]
 
+      
     self.clicked_categoria_de_despesa=tk.StringVar()
     self.clicked_categoria_de_despesa.set("----")
 
@@ -395,7 +412,18 @@ class View:
 
     self.orcamento_mensal_button = tk.Button(self.nova_janela,text="Adicionar",bg="gray",font=("Arial",12),width=10,command= self.adicionar_salario)
     self.orcamento_mensal_button.grid(row=1,column=1,sticky="w")
+  
+  def limitar_gastos(self):
+    self.nova_janela = tk.Toplevel()
+    self.nova_janela.title("Limite máximo de gastos")
+    self.nova_janela.configure(bg="gray")
 
+    tk.Label(self.nova_janela,text="Defina um gasto máximo",bg="gray",font=("Arial",15)).grid(row=0,column=0,sticky="w")
+    self.gastos_maximos_entry = tk.Entry(self.nova_janela)
+    self.gastos_maximos_entry.grid(row=0,column=1,sticky="w")
+
+    self.gastos_maximos_button = tk.Button(self.nova_janela,bg="gray", text="Confirmar", font=("Arial",12),width=10,command=self.gastar)
+    self.gastos_maximos_button.grid(row=1,column=1,sticky="w")
 
   def adicionar_salario(self):
     conn=sqlite3.connect('saved_data.db')
@@ -436,6 +464,25 @@ class View:
       except ValueError:
         messagebox.showerror("Erro","Digite o seu salário em valor númerico")
     
+  def gastar(self):
+    self.gastos = self.gastos_maximos_entry.get()
+    if self.gastos != int or float:
+      try:
+        self.gastos = float(self.gastos)
+        if self.gastos > self.salario.get_orcamento():
+          messagebox.showerror("Erro","Orçamento insuficiente.")
+        elif self.gastos == self.salario.get_orcamento():
+          self.salario.set_gasto_maximo(self.gastos)
+          messagebox.showwarning("Aviso","Valor máximo atingido.")
+          self.nova_janela.destroy()
+        else:
+          self.salario.set_gasto_maximo(self.gastos)
+          messagebox.showinfo("","Gasto máximo definido com sucesso.")
+          self.nova_janela.destroy()
+      except ValueError:
+        messagebox.showerror("ERRO","O orçamento tem que ser dado númericamente!")
+
+
 
   def analise(self):
     conn=sqlite3.connect('saved_data.db')
