@@ -489,7 +489,7 @@ class View:
     c=conn.cursor()
     self.nova_janela = tk.Toplevel()
     self.nova_janela.title("Analise de despesas")
-    self.nova_janela.configure(bg="#2e5448")
+    self.nova_janela.configure(bg="#92e3a9")
 
     self.saved_table=c.execute("SELECT * FROM user_data WHERE Nome_do_utilizador = ?", (self.nome_actual,)).fetchall()
     lenght=len(self.saved_table)+1
