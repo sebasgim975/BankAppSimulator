@@ -59,9 +59,6 @@ class View:
   def confirmar_registar(self):
     conn=sqlite3.connect('saved_data.db')
     c=conn.cursor()
-
-    c.execute("DROP TABLE user_data")
-
     
     c.execute("""CREATE TABLE if not exists user_data (Nome_do_utilizador text, Password text, NIF text, Categoria_de_despesa text ,Descricao_de_despesa text,Valor_da_despesa float,Data_da_despesa text, Orcamento_actual float, Orcamento_inicial float, Gasto_maximo float, Valor_despesa_total float, Valor_despesa_total_gastos float)""")    
     c.execute("SELECT * FROM user_data")
@@ -76,7 +73,6 @@ class View:
       messagebox.showerror("Erro", "NIF invalido")
       self.nova_janela.destroy()
     else:
-
       c.execute("INSERT INTO user_data (Nome_do_utilizador, Password, NIF, Categoria_de_despesa, Orcamento_actual)VALUES (:Nome_do_utilizador, :Password, :NIF,  :Categoria_de_despesa, :Orcamento_actual)",
             {
               'Nome_do_utilizador': self.nome_entry.get(),
@@ -88,6 +84,7 @@ class View:
             )
       conn.commit()
       conn.close()
+      messagebox.showinfo("Succeso", "User registrado")
       self.nova_janela.destroy()
     
 
@@ -268,8 +265,6 @@ class View:
     conn.commit()
     conn.close()
 
-        
-        
 
   def consultar_despesas(self):
     conn=sqlite3.connect('saved_data.db')
@@ -405,6 +400,7 @@ class View:
 
 
   def orcamento_mensal(self):
+    self.temp_value=1
     self.nova_janela = tk.Toplevel(self.master, bg="#92e3a9", padx=200, pady=150)
     self.nova_janela.title("Orçamento mensal")
 
@@ -542,9 +538,6 @@ class View:
           categoria_gasto_max=temp_max
        a=1
 
-
-
-    
 
     tk.Label(self.nova_janela,text="Orçamento_inicial",bg= "gray",font=("Arial",15)).grid(row=0,column=0,sticky="w")
     tk.Label(self.nova_janela, text=str(valor_inicial) ,bg="white",foreground="black",font=("Arial",12),width=25, height=1).grid(row=0, column=1)
