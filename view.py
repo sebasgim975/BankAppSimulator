@@ -140,10 +140,6 @@ class View:
     tk.Label(self.nova_janela,text="Data da despesa",bg= "#92e3a9",font=("Times New Roman",15)).grid(row=3,column=0,sticky="w")
     self.data_da_despesa_entry= DateEntry(self.nova_janela)
     self.data_da_despesa_entry.grid(row=3,column=1,sticky="w")
-
-    
-    #self.calendar_button = tk.Button(self.nova_janela,text="ver",command=self.calendario)
-    #self.calendar_button.grid(row=3,column=2,sticky="w")    
           
     self.adicionar_button = tk.Button(self.nova_janela,text="Adicionar",bg="#2e5448",foreground="white",font=("Times New Roman",12), width=10,command=self.confirmar_adicao)
     self.adicionar_button.grid(row=5,column=1,sticky="w")
