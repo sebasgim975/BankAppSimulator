@@ -138,7 +138,7 @@ class View:
     self.valor_da_despesa_entry.grid(row=2,column=1,sticky="w")
   
     tk.Label(self.nova_janela,text="Data da despesa",bg= "#92e3a9",font=("Times New Roman",15)).grid(row=3,column=0,sticky="w")
-    self.data_da_despesa_entry=(self.nova_janela)
+    self.data_da_despesa_entry= tk.Entry(self.nova_janela)
     self.data_da_despesa_entry.grid(row=3,column=1,sticky="w")
 
     self.calendar_button = tk.Button(self.nova_janela,text="ver",command=self.calendario)
