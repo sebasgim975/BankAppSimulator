@@ -3,50 +3,50 @@ from abc import ABC, abstractmethod
 class List(ABC):
     @abstractmethod
     def is_empty(self):
-        ''' Retorna True se a colecao não contém elementos. '''
+        ''' Returns True if the collection does not contain any elements. '''
     @abstractmethod
     def size(self):
-        ''' Retorna o número de elementos na colecao. '''
+        ''' Returns the number of elements in the collection. '''
     @abstractmethod
     def get_first(self):
-        ''' Retorna o primeiro elemento da colecao.'''
+        ''' Returns the first element of the collection.'''
     @abstractmethod
     def get_last(self):
-        ''' Retorna o último elemento da colecao.'''
+        ''' Returns the last element of the collection.'''
     @abstractmethod
-    def get(self, posicao):
-        ''' Retorna o elemento na posição especificada na colecao.
-            Range de posições válidas: 0, ..., size()-1. '''
+    def get(self, position):
+        ''' Returns the element at the specified position in the collection.
+            Range of valid positions: 0, ..., size()-1. '''
     @abstractmethod
-    def find(self, elemento):
-        ''' Retorna a posição na colecao da primeira ocorrência
-             do elemento especificado, ou -1 se o elementoo especificado
-             não ocorre na colecao.. '''
+    def find(self, element):
+        ''' Returns the position in the collection of the first occurrence of
+         the specified element, or -1 if the specified element does not occur
+         in the collection. '''
     @abstractmethod
-    def insert_first(self, elemento):
-        ''' Insere o elemento especificado na primeira posição da colecao. '''  
+    def insert_first(self, element):
+        ''' Inserts the specified element at the first position in the collection. '''
     @abstractmethod
-    def insert_last(self, elemento):
-        ''' Insere o elemento especificado na última posição da colecao. '''
+    def insert_last(self, element):
+        ''' Inserts the specified element at the last position in the collection. '''
     @abstractmethod
-    def insert(self, elemento, posicao):
-        ''' Insira o elemento especificado na posição especificada na colecao.
-             Gama de posições válidas: 0, ..., tamanho ().
-             Se a posição especificada for 0, a inserção corresponde ao insertfirst.
-             Se a posição especificada for tamanho (), a inserção corresponde ao insertLast.'''
+    def insert(self, element, position):
+        ''' Insert the specified element at the specified position in the collection.
+             Valid range of positions: 0, ..., size().
+              If the specified position is 0, the insertion corresponds to insertFirst.
+             If the specified position is size(), the insertion corresponds to insertLast.'''
     @abstractmethod
     def remove_first(self):
-        '''Remove e retorna o elemento na primeira posição da colecao.'''
+        '''Removes and returns the element at the first position of the collection.'''
     @abstractmethod
     def remove_last(self):
-        ''' Remove e retorna o elemento na última posição da colecao. '''
+        ''' Removes and returns the element at the last position of the collection. '''
     @abstractmethod
-    def remove(self, posicao):
-        ''' Remove e retorna o elemento na posição especificada na colecao.
-            Range de posições válidas: 0, ..., size()-1.'''
+    def remove(self, position):
+        ''' Removes and returns the element at the specified position in the collection.
+            Range of valid positions: 0, ..., size()-1.'''
     @abstractmethod
     def make_empty(self):
-        ''' Remove todos os elementos da colecao. '''
+        ''' Removes all elements from the collection. '''
     @abstractmethod
     def iterator(self):
-        ''' Retorna um iterador dos elementos da colecao (na sequência adequada). '''
+        ''' Returns an iterator of the elements of the collection (in the proper sequence). '''
